@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>愛營養食譜｜黃君聖 Sunny 營養師</title>
+<style>
+  :root{
+    --green:#2f6b3c; --green-d:#24512e; --accent:#f2a71b; --accent-d:#d98e00;
+    --cream:#faf7ef; --card:#ffffff; --ink:#2b2b2b; --muted:#7c7c72; --line:#eae5d8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+       background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  header{background:linear-gradient(135deg,var(--green),var(--green-d));color:#fff;padding:26px 18px 20px;text-align:center}
+  header .brand{font-size:13px;letter-spacing:3px;opacity:.85}
+  header h1{margin:6px 0 2px;font-size:26px;font-weight:800}
+  header p{margin:0;font-size:13px;opacity:.9}
+  .search-wrap{max-width:520px;margin:16px auto 0;position:relative}
+  .search-wrap input{width:100%;padding:12px 16px 12px 42px;border:none;border-radius:30px;
+       font-size:15px;box-shadow:0 4px 16px rgba(0,0,0,.12);outline:none}
+  .search-wrap svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);opacity:.45}
+  .bar{position:sticky;top:0;z-index:20;background:var(--cream);border-bottom:1px solid var(--line);
+       padding:10px 12px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .pill{flex:0 0 auto;border:1.5px solid var(--green);color:var(--green);background:transparent;
+       padding:7px 15px;border-radius:20px;font-size:14px;cursor:pointer;white-space:nowrap;transition:.15s}
+  .pill.active{background:var(--green);color:#fff}
+  .count{max-width:1100px;margin:14px auto 0;padding:0 16px;color:var(--muted);font-size:13px}
+  .grid{max-width:1100px;margin:10px auto 40px;padding:0 16px;
+       display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+  .card{background:var(--card);border-radius:16px;overflow:hidden;cursor:pointer;
+       box-shadow:0 2px 10px rgba(0,0,0,.06);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+  .thumb{aspect-ratio:1;background:#f0ede3;position:relative}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .thumb .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+       font-size:22px;font-weight:800;color:var(--green);background:repeating-linear-gradient(45deg,#f3f0e6,#f3f0e6 10px,#eee9db 10px,#eee9db 20px)}
+  .badge{position:absolute;top:8px;left:8px;background:rgba(47,107,60,.92);color:#fff;
+       font-size:11px;padding:3px 9px;border-radius:12px}
+  .card .body{padding:11px 13px 13px}
+  .card h3{margin:0 0 5px;font-size:16px;font-weight:700}
+  .card .ing{font-size:12px;color:var(--muted);line-height:1.5;
+       display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  /* modal */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:50;
+       align-items:center;justify-content:center;padding:16px}
+  .overlay.show{display:flex}
+  .modal{background:#fff;border-radius:18px;max-width:860px;width:100%;max-height:90vh;overflow:auto;
+       display:grid;grid-template-columns:1fr 1fr}
+  .modal .mimg{background:#f0ede3}
+  .modal .mimg img{width:100%;height:100%;object-fit:cover;display:block}
+  .modal .mimg .ph{min-height:280px;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;color:var(--green)}
+  .modal .mbody{padding:24px 24px 28px}
+  .modal .mcat{color:var(--accent-d);font-size:13px;font-weight:700}
+  .modal h2{margin:6px 0 14px;font-size:26px}
+  .modal h4{margin:18px 0 8px;font-size:14px;color:var(--muted);letter-spacing:1px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tag{background:#eef4ea;color:var(--green-d);padding:6px 12px;border-radius:14px;font-size:14px}
+  .note{margin-top:18px;padding:12px 14px;background:#fff8e8;border:1px solid #f3e2b5;
+       border-radius:12px;font-size:13px;color:#8a6d1f;line-height:1.6}
+  .close{position:absolute;top:20px;right:22px;background:#fff;border:none;width:38px;height:38px;
+       border-radius:50%;font-size:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2);z-index:60}
+  footer{background:var(--green-d);color:#fff;text-align:center;padding:24px 16px;font-size:13px;line-height:1.9}
+  footer b{font-size:15px}
+  @media(max-width:640px){
+    .modal{grid-template-columns:1fr}
+    header h1{font-size:22px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">愛營養 iNUTRITION</div>
+  <h1>Sunny 營養師的家常食譜</h1>
+  <p>黃君聖 Sunny 營養師 ｜ 一菜一卡，食材清清楚楚</p>
+  <div class="search-wrap">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+    <input id="q" placeholder="搜尋菜名或食材，例如「番茄」「雞胸」">
+  </div>
+</header>
+<div class="bar" id="bar"></div>
+<div class="count" id="count"></div>
+<div class="grid" id="grid"></div>
+
+<div class="overlay" id="overlay">
+  <button class="close" onclick="closeModal()">×</button>
+  <div class="modal" id="modal"></div>
+</div>
+
+<footer>
+  <b>愛營養 iNutrition</b><br>
+  黃君聖 Sunny 營養師 ｜ FB／IG／YouTube ｜ LINE @i333<br>
+  <span style="opacity:.7">※ 本頁為食譜網站原型，共 95 道圖卡食譜</span>
+</footer>
+
+<script>
+const DB = {"recipes": [{"id": "MEAT-01", "name": "九層塔雞丁", "cat": "肉類", "ing": ["雞肉餅", "洋蔥", "蒜頭", "辣椒", "九層塔", "葵花油"], "img": "MEAT-01.jpg"}, {"id": "MEAT-02", "name": "宮保雞丁", "cat": "肉類", "ing": ["雞胸肉", "乾辣椒", "蒜頭", "雞蛋", "青蔥段", "辣油", "醬油膏", "白醋", "胡椒", "九層塔"], "img": "MEAT-02.jpg"}, {"id": "MEAT-03", "name": "椒鹽腰內肉", "cat": "肉類", "ing": ["腰內肉", "雞蛋", "青蔥", "薑", "蒜頭", "辣椒", "玄米油"], "img": "MEAT-03.jpg"}, {"id": "MEAT-04", "name": "涼拌牛腱", "cat": "肉類", "ing": ["滷牛腱", "蒜頭", "辣椒", "青蔥", "香菜"], "img": "MEAT-04.jpg"}, {"id": "MEAT-05", "name": "涼拌雞絲", "cat": "肉類", "ing": ["雞胸肉", "蒜頭", "洋蔥", "香菜", "腐竹"], "img": "MEAT-05.jpg"}, {"id": "MEAT-06", "name": "炒牛肚", "cat": "肉類", "ing": ["牛肚", "豆芽菜", "薑", "蒜頭", "青蔥", "辣椒", "玄米油"], "img": "MEAT-06.jpg"}, {"id": "MEAT-07", "name": "炒雞胗", "cat": "肉類", "ing": ["雞胗", "蒜片", "醬油", "薑", "辣椒", "醬油膏", "油"], "img": "MEAT-07.jpg"}, {"id": "MEAT-08", "name": "牛肉捲餅", "cat": "肉類", "ing": ["滷牛腱", "小黃瓜", "紅蘿蔔", "蒜苗", "香菜", "雞蛋", "高筋麵粉", "牛奶"], "img": "MEAT-08.jpg"}, {"id": "MEAT-09", "name": "甜椒豬腱", "cat": "肉類", "ing": ["滷豬腱", "青蔥", "甜椒", "洋蔥", "初榨橄欖油"], "img": "MEAT-09.jpg"}, {"id": "MEAT-10", "name": "番茄牛腱", "cat": "肉類", "ing": ["滷牛腱", "牛番茄", "洋蔥", "青蔥", "初榨橄欖油"], "img": "MEAT-10.jpg"}, {"id": "MEAT-11", "name": "番茄雞肉丸", "cat": "肉類", "ing": ["番茄", "洋蔥", "雞肉", "嫩豆腐", "香菜"], "img": "MEAT-11.jpg"}, {"id": "MEAT-12", "name": "蘿蔔燉牛肉", "cat": "肉類", "ing": ["水", "牛肉", "蘿蔔", "薑", "蔥", "鹽"], "img": "MEAT-12.jpg"}, {"id": "MEAT-13", "name": "豆皮雞捲", "cat": "肉類", "ing": ["雞胸肉", "洋蔥", "紅蘿蔔", "雞蛋", "青蔥段", "香菜", "薄豆皮", "玄米油"], "img": "MEAT-13.jpg"}, {"id": "MEAT-14", "name": "豆皮雞胸肉", "cat": "肉類", "ing": ["雞胸肉", "豆皮", "熟毛豆", "雞蛋", "青蔥", "紅蘿蔔", "葵花油"], "img": "MEAT-14.jpg"}, {"id": "MEAT-15", "name": "雞肉豆腐煲", "cat": "肉類", "ing": ["雞肉餅", "嫩豆腐", "洋蔥", "紅蘿蔔", "青蔥", "蒜頭", "辣椒", "蒜苗", "玄米油"], "img": "MEAT-15.jpg"}, {"id": "MEAT-16", "name": "雞肉餅", "cat": "肉類", "ing": [], "img": ""}, {"id": "MEAT-17", "name": "雞胸肉蛋捲", "cat": "肉類", "ing": ["雞胸肉", "紅蘿蔔", "雞蛋", "香菜", "牛奶", "鹽巴"], "img": "MEAT-17.jpg"}, {"id": "MEAT-18", "name": "香滷牛腱", "cat": "肉類", "ing": ["牛腱", "洋蔥", "薑", "辣椒", "玄米油"], "img": "MEAT-18.jpg"}, {"id": "MEAT-19", "name": "香煎雞腿", "cat": "肉類", "ing": ["雞腿", "鹽巴", "黑胡椒"], "img": "MEAT-19.jpg"}, {"id": "MEAT-20", "name": "香滷豬腱肉", "cat": "肉類", "ing": ["滷豬腱", "薑", "洋蔥", "辣椒", "青蔥", "蒜頭", "初榨橄欖油"], "img": "MEAT-20.jpg"}, {"id": "SEA-01", "name": "乾煎紅喉", "cat": "海鮮魚類", "ing": ["紅喉", "葡萄籽油"], "img": "SEA-01.jpg"}, {"id": "SEA-02", "name": "乾煎肉鯽魚", "cat": "海鮮魚類", "ing": ["刺鯧", "玄米油", "鹽巴"], "img": "SEA-02.jpg"}, {"id": "SEA-03", "name": "乾煎鱈魚", "cat": "海鮮魚類", "ing": ["鱈魚", "蒜頭", "青蔥", "香菜", "辣椒", "葵花油"], "img": "SEA-03.jpg"}, {"id": "SEA-04", "name": "毛豆蝦仁炒蛋", "cat": "海鮮魚類", "ing": ["毛豆", "蝦仁", "雞蛋", "香菜", "蔥", "蒜頭", "洋蔥"], "img": "SEA-04.jpg"}, {"id": "SEA-05", "name": "泰式干貝", "cat": "海鮮魚類", "ing": ["干貝", "芥花油", "香菜", "辣椒", "檸檬", "魚露", "砂糖"], "img": "SEA-05.jpg"}, {"id": "SEA-06", "name": "涼拌章魚", "cat": "海鮮魚類", "ing": ["章魚", "小黃瓜", "蒜頭", "薑", "辣椒"], "img": "SEA-06.jpg"}, {"id": "SEA-07", "name": "清炒蝦仁", "cat": "海鮮魚類", "ing": ["蝦仁", "青蔥", "鹽"], "img": "SEA-07.jpg"}, {"id": "SEA-08", "name": "清蒸鱸魚", "cat": "海鮮魚類", "ing": ["海鱸魚", "辣椒", "青蔥", "薑", "葵花油", "鹽", "米酒", "醬油膏", "白胡椒"], "img": "SEA-08.jpg"}, {"id": "SEA-09", "name": "蒜蓉鮮蚵", "cat": "海鮮魚類", "ing": ["蚵仔", "蒜頭", "香菜", "油膏", "香油", "黑醋"], "img": "SEA-09.jpg"}, {"id": "SEA-10", "name": "薑絲炒花枝", "cat": "海鮮魚類", "ing": ["花枝", "薑", "辣椒", "蒜頭", "青蔥", "鹽巴", "米酒", "葵花油"], "img": "SEA-10.jpg"}, {"id": "SEA-11", "name": "醋燒旗魚", "cat": "海鮮魚類", "ing": ["旗魚", "雞蛋", "醬油", "黑醋", "薑", "鹽", "胡椒", "蒜苗", "洋蔥"], "img": "SEA-11.jpg"}, {"id": "SEA-12", "name": "韭黃炒文蛤肉", "cat": "海鮮魚類", "ing": ["文蛤肉", "韭黃", "紅蘿蔔", "薑", "辣椒", "青蔥", "葡萄籽油"], "img": "SEA-12.jpg"}, {"id": "SEA-13", "name": "香煎鮭魚", "cat": "海鮮魚類", "ing": ["鮭魚", "熟毛豆", "鹽", "青蔥", "黑胡椒"], "img": "SEA-13.jpg"}, {"id": "SEA-14", "name": "鳳梨蝦球", "cat": "海鮮魚類", "ing": ["蝦仁", "新鮮鳳梨", "鳳梨乾", "蛋白", "香菜", "薑", "荸薺粉", "玄米油"], "img": "SEA-14.jpg"}, {"id": "VEG-01", "name": "一杯半蘑菇", "cat": "蔬菜", "ing": ["蘑菇", "九層塔", "蒜頭", "辣椒", "麻油"], "img": "VEG-01.jpg"}, {"id": "VEG-02", "name": "塔香茄子", "cat": "蔬菜", "ing": ["茄子", "蒜頭", "九層塔", "辣椒", "芥花油"], "img": "VEG-02.jpg"}, {"id": "VEG-03", "name": "涼拌海帶芽", "cat": "蔬菜", "ing": ["海帶芽", "蒜頭", "薑", "蒜苗", "辣椒", "萬用醋", "芝麻香油"], "img": "VEG-03.jpg"}, {"id": "VEG-04", "name": "涼拌黃豆芽", "cat": "蔬菜", "ing": ["豆芽菜", "蒜頭", "辣椒", "香菜"], "img": "VEG-04.jpg"}, {"id": "VEG-05", "name": "清炒百合甜豆", "cat": "蔬菜", "ing": ["甜豆", "百合", "甜椒", "蒜頭", "葡萄籽油"], "img": "VEG-05.jpg"}, {"id": "VEG-06", "name": "清炒綠蘆筍玉米筍", "cat": "蔬菜", "ing": ["綠蘆筍", "紅蘿蔔", "玉米筍", "蒜頭", "青蔥", "葵花油"], "img": "VEG-06.jpg"}, {"id": "VEG-07", "name": "清炒黑木耳綠竹筍", "cat": "蔬菜", "ing": ["綠竹筍", "黑木耳", "紅蘿蔔", "蒜頭", "辣椒", "青蔥", "橄欖油"], "img": "VEG-07.jpg"}, {"id": "VEG-08", "name": "滷白菜", "cat": "蔬菜", "ing": ["白菜", "草菇", "新鮮香菇", "黑木耳", "紅蘿蔔", "蒜頭", "香菜", "玄米油"], "img": "VEG-08.jpg"}, {"id": "VEG-09", "name": "滷苦瓜", "cat": "蔬菜", "ing": ["苦瓜", "紅蘿蔔", "杏鮑菇", "蔥段", "蒜頭"], "img": "VEG-09.jpg"}, {"id": "VEG-10", "name": "炒茄子", "cat": "蔬菜", "ing": ["茄子", "蒜頭", "醬油膏", "香菜", "蒜苗"], "img": "VEG-10.jpg"}, {"id": "VEG-11", "name": "炒茄茉菜", "cat": "蔬菜", "ing": ["茄茉菜", "薑", "鹽", "油"], "img": "VEG-11.jpg"}, {"id": "VEG-12", "name": "炒萵筍", "cat": "蔬菜", "ing": ["萵筍", "蒜苗", "辣椒", "葵花油"], "img": "VEG-12.jpg"}, {"id": "VEG-13", "name": "皮蛋地瓜葉", "cat": "蔬菜", "ing": ["地瓜葉", "皮蛋", "紅蘿蔔", "蒜頭", "辣椒", "葡萄籽油"], "img": "VEG-13.jpg"}, {"id": "VEG-14", "name": "茭白筍炒香菇", "cat": "蔬菜", "ing": ["茭白筍", "新鮮香菇", "紅蘿蔔", "蒜頭", "青蔥", "苦茶油"], "img": "VEG-14.jpg"}, {"id": "VEG-15", "name": "蒜炒甜椒四季豆", "cat": "蔬菜", "ing": ["四季豆", "甜椒", "蒜頭", "玄米油"], "img": "VEG-15.jpg"}, {"id": "VEG-16", "name": "蒜炒菇菇醜豆", "cat": "蔬菜", "ing": ["醜豆", "杏鮑菇", "紅蘿蔔", "蒜頭", "葡萄籽油"], "img": "VEG-16.jpg"}, {"id": "VEG-17", "name": "蒜炒金針菇娃娃菜", "cat": "蔬菜", "ing": ["娃娃菜", "金針菇", "紅蘿蔔", "蒜頭", "蒜苗", "辣椒", "玄米油"], "img": "VEG-17.jpg"}, {"id": "VEG-18", "name": "蒜炒雙色花椰菜", "cat": "蔬菜", "ing": ["白花椰菜", "綠花椰菜", "甜椒", "洋蔥", "香菇", "紅蘿蔔", "蒜頭", "玄米油"], "img": "VEG-18.jpg"}, {"id": "VEG-19", "name": "薑炒紅鳳菜", "cat": "蔬菜", "ing": ["紅鳳菜", "薑", "麻油"], "img": "VEG-19.jpg"}, {"id": "VEG-20", "name": "醬燒滷冬瓜", "cat": "蔬菜", "ing": ["冬瓜", "薑", "醬油膏", "油", "青蔥", "紅蘿蔔"], "img": "VEG-20.jpg"}, {"id": "VEG-21", "name": "青江菜炒豆皮", "cat": "蔬菜", "ing": ["青江菜", "豆皮", "紅蘿蔔", "蒜頭", "葵花油"], "img": "VEG-21.jpg"}, {"id": "VEG-22", "name": "韭菜花炒蛋", "cat": "蔬菜", "ing": ["韭菜花", "雞蛋", "甜椒", "青蔥", "蒜頭", "橄欖油"], "img": "VEG-22.jpg"}, {"id": "VEG-23", "name": "鴻喜炒菇荷蘭豆", "cat": "蔬菜", "ing": ["荷蘭豆", "鴻喜菇", "紅蘿蔔", "蒜頭", "葡萄籽油"], "img": "VEG-23.jpg"}, {"id": "VEG-24", "name": "鴻喜菇炒水蓮", "cat": "蔬菜", "ing": ["鴻喜菇", "水蓮", "甜椒", "蒜頭", "玄米油"], "img": "VEG-24.jpg"}, {"id": "VEG-25", "name": "鴻喜菇炒荷蘭豆", "cat": "蔬菜", "ing": ["荷蘭豆", "鴻喜菇", "紅蘿蔔", "蒜頭", "葡萄籽油"], "img": "VEG-25.jpg"}, {"id": "EGG-01", "name": "乾煎皮蛋豆腐", "cat": "豆蛋", "ing": ["板豆腐", "皮蛋", "蒜頭", "辣椒", "青蔥", "葡萄籽油"], "img": "EGG-01.jpg"}, {"id": "EGG-02", "name": "安媽滷蛋", "cat": "豆蛋", "ing": ["雞蛋", "辣椒", "水", "洋蔥末", "芥花油", "醬油", "味醂"], "img": "EGG-02.jpg"}, {"id": "EGG-03", "name": "滷豆干", "cat": "豆蛋", "ing": ["豆干", "洋蔥", "辣椒", "蒜頭", "蒜苗", "香菜", "玄米油", "醬油", "醬油膏"], "img": "EGG-03.jpg"}, {"id": "EGG-04", "name": "炒豆皮", "cat": "豆蛋", "ing": ["豆皮", "蒜苗", "香菜", "蒜頭", "辣椒"], "img": "EGG-04.jpg"}, {"id": "EGG-05", "name": "珠蔥煎蛋", "cat": "豆蛋", "ing": ["珠蔥", "雞蛋", "紅蘿蔔", "洋蔥"], "img": "EGG-05.jpg"}, {"id": "EGG-06", "name": "番茄炒蛋", "cat": "豆蛋", "ing": ["牛番茄", "雞蛋", "青蔥", "葵花油"], "img": "EGG-06.jpg"}, {"id": "EGG-07", "name": "紅燒臭豆腐", "cat": "豆蛋", "ing": ["臭豆腐", "紅蘿蔔", "木耳", "洋蔥", "熟毛豆", "香菜", "蒜頭", "辣椒", "高湯", "葵花油"], "img": "EGG-07.jpg"}, {"id": "EGG-08", "name": "紅燒豆腐", "cat": "豆蛋", "ing": ["臭豆腐", "紅蘿蔔", "木耳", "洋蔥", "熟毛豆", "香菜", "蒜頭", "辣椒", "高湯", "葵花油"], "img": "EGG-08.jpg"}, {"id": "EGG-09", "name": "菜脯蛋", "cat": "豆蛋", "ing": ["手工菜脯", "雞蛋", "洋蔥", "紅蘿蔔", "香菜", "青蔥", "辣椒", "初榨橄欖油"], "img": "EGG-09.jpg"}, {"id": "EGG-10", "name": "蒲瓜烘蛋", "cat": "豆蛋", "ing": ["蒲瓜", "洋蔥", "紅蘿蔔", "雞蛋", "蒜頭", "香菜", "葡萄籽油"], "img": "EGG-10.jpg"}, {"id": "EGG-11", "name": "蒸蛋", "cat": "豆蛋", "ing": ["雞蛋", "蝦仁", "毛豆", "新鮮香菇", "青蔥", "雞精", "水"], "img": "EGG-11.jpg"}, {"id": "EGG-12", "name": "金針菇煎蛋", "cat": "豆蛋", "ing": ["金針菇", "紅蘿蔔", "洋蔥", "香菜", "青蔥", "雞蛋", "玄米油"], "img": "EGG-12.jpg"}, {"id": "EGG-13", "name": "銀芽烘蛋", "cat": "豆蛋", "ing": ["豆芽菜", "韭菜", "甜椒", "香菜", "蒜苗", "蒜頭", "雞蛋", "玄米油"], "img": "EGG-13.jpg"}, {"id": "SOUP-01", "name": "番茄蔬菜湯", "cat": "湯品", "ing": ["牛番茄", "洋蔥", "高麗菜", "水", "玄米油"], "img": "SOUP-01.jpg"}, {"id": "SOUP-02", "name": "白蘆筍湯", "cat": "湯品", "ing": ["排骨", "白蘆筍", "青蔥", "水"], "img": "SOUP-02.jpg"}, {"id": "SOUP-03", "name": "脆筍湯", "cat": "湯品", "ing": ["排骨", "脆筍", "紅蘿蔔", "青蔥", "水"], "img": "SOUP-03.jpg"}, {"id": "SOUP-04", "name": "薑絲蛤蠣湯", "cat": "湯品", "ing": ["蛤蠣", "薑", "青蔥", "香菜", "水"], "img": "SOUP-04.jpg"}, {"id": "SOUP-05", "name": "蘿蔔湯", "cat": "湯品", "ing": ["排骨", "白蘿蔔", "香菜", "水"], "img": "SOUP-05.jpg"}, {"id": "SOUP-06", "name": "豆皮蛋花湯", "cat": "湯品", "ing": ["豆皮", "紅蘿蔔", "雞蛋", "高湯", "香菜", "蒜苗", "香油", "鹽"], "img": "SOUP-06.jpg"}, {"id": "SOUP-07", "name": "高麗菜湯", "cat": "湯品", "ing": ["排骨", "高麗菜", "紅蘿蔔", "水"], "img": "SOUP-07.jpg"}, {"id": "SOUP-08", "name": "綠竹筍湯", "cat": "湯品", "ing": ["排骨", "綠竹筍", "水"], "img": "SOUP-08.jpg"}, {"id": "GRAIN-01", "name": "南瓜煎餅", "cat": "全穀雜糧", "ing": ["南瓜", "洋蔥", "紅蘿蔔", "高筋麵粉", "雞蛋", "青蔥", "橄欖油", "鹽巴"], "img": "GRAIN-01.jpg"}, {"id": "GRAIN-02", "name": "古早味芋頭糕", "cat": "全穀雜糧", "ing": ["芋頭", "紅蔥頭", "在來米", "水", "葵花油"], "img": "GRAIN-02.jpg"}, {"id": "GRAIN-03", "name": "烤地瓜", "cat": "全穀雜糧", "ing": ["芋心甘薯"], "img": "GRAIN-03.jpg"}, {"id": "GRAIN-04", "name": "臺式義大利麵", "cat": "全穀雜糧", "ing": ["生義大利麵條", "蝦仁", "透抽", "牛番茄", "洋蔥", "蒜頭", "蒜苗", "青蔥", "香菜", "橄欖油"], "img": "GRAIN-04.jpg"}, {"id": "GRAIN-05", "name": "蒟蒻炒麵", "cat": "全穀雜糧", "ing": ["蒟蒻麵", "黑木耳", "紅蘿蔔", "高麗菜", "洋蔥", "辣椒", "香菜", "青蔥", "蒜頭", "紅蔥頭", "玄米油"], "img": "GRAIN-05.jpg"}, {"id": "GRAIN-06", "name": "蒟蒻白米飯", "cat": "全穀雜糧", "ing": ["白米", "蒟蒻米"], "img": "GRAIN-06.jpg"}, {"id": "GRAIN-07", "name": "蒟蒻米炒飯", "cat": "全穀雜糧", "ing": ["蒟蒻米糙米飯", "雞蛋", "洋蔥", "青蔥", "九層塔", "葡萄籽油"], "img": "GRAIN-07.jpg"}, {"id": "GRAIN-08", "name": "蒟蒻米糙米飯", "cat": "全穀雜糧", "ing": ["糙米", "蒟蒻米"], "img": "GRAIN-08.jpg"}, {"id": "SNACK-01", "name": "南瓜堅果飲", "cat": "百卡點心", "ing": ["南瓜", "水", "牛奶", "綜合堅果"], "img": "SNACK-01.jpg"}, {"id": "SNACK-02", "name": "古早味菜頭粿", "cat": "百卡點心", "ing": ["菜頭", "水", "在來米", "鹽", "荸薺粉"], "img": "SNACK-02.jpg"}, {"id": "SNACK-03", "name": "紫薯燕麥芝麻奶", "cat": "百卡點心", "ing": ["紫地瓜", "燕麥", "黑芝麻", "牛奶", "水"], "img": "SNACK-03.jpg"}, {"id": "SNACK-04", "name": "綠拿鐵", "cat": "百卡點心", "ing": ["綠花椰菜", "香蕉", "燕麥", "花生", "牛奶"], "img": "SNACK-04.jpg"}, {"id": "SNACK-05", "name": "蘑菇濃湯", "cat": "百卡點心", "ing": ["馬鈴薯", "洋蔥", "蘑菇", "腰果", "牛奶", "蒜頭", "初榨橄欖油"], "img": "SNACK-05.jpg"}, {"id": "SNACK-06", "name": "馬鈴薯番茄湯", "cat": "百卡點心", "ing": ["馬鈴薯", "洋蔥", "牛番茄", "紅蘿蔔", "腰果", "毛豆", "初榨橄欖油", "熱水"], "img": "SNACK-06.jpg"}, {"id": "SNACK-07", "name": "高麗菜絲餅", "cat": "百卡點心", "ing": ["高麗菜", "紅蘿蔔", "板豆腐", "雞蛋", "洋蔥", "蔥", "香菜", "蝦仁", "毛豆"], "img": "SNACK-07.jpg"}], "cats": ["肉類", "海鮮魚類", "蔬菜", "豆蛋", "湯品", "全穀雜糧", "百卡點心"]};
+let curCat = "全部";
+const grid = document.getElementById('grid');
+const bar  = document.getElementById('bar');
+const q    = document.getElementById('q');
+const countEl = document.getElementById('count');
+
+// 分類 pills
+["全部",...DB.cats].forEach(c=>{
+  const b=document.createElement('button');
+  b.className='pill'+(c==="全部"?' active':'');
+  b.textContent=c;
+  b.onclick=()=>{curCat=c;[...bar.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');render()};
+  bar.appendChild(b);
+});
+
+function match(r){
+  const kw=q.value.trim().toLowerCase();
+  if(curCat!=="全部" && r.cat!==curCat) return false;
+  if(!kw) return true;
+  return r.name.toLowerCase().includes(kw) || r.ing.join(",").toLowerCase().includes(kw);
+}
+function thumb(r,cls){
+  return r.img ? `<img src="${r.img}" alt="${r.name}">`
+               : `<div class="ph">${r.name}</div>`;
+}
+function render(){
+  const list=DB.recipes.filter(match);
+  countEl.textContent=`共 ${list.length} 道`;
+  grid.innerHTML=list.map((r,i)=>`
+    <div class="card" onclick="openModal(${DB.recipes.indexOf(r)})">
+      <div class="thumb"><span class="badge">${r.cat}</span>${thumb(r)}</div>
+      <div class="body"><h3>${r.name}</h3><div class="ing">${r.ing.join('、')}</div></div>
+    </div>`).join('') || `<p style="color:#999">找不到符合的食譜</p>`;
+}
+function openModal(idx){
+  const r=DB.recipes[idx];
+  document.getElementById('modal').innerHTML=`
+    <div class="mimg">${r.img?`<img src="${r.img}" alt="${r.name}">`:`<div class="ph">${r.name}</div>`}</div>
+    <div class="mbody">
+      <div class="mcat">${r.cat}</div>
+      <h2>${r.name}</h2>
+      <h4>食材</h4>
+      <div class="tags">${r.ing.map(x=>`<span class="tag">${x}</span>`).join('')||'<span style="color:#999">（待補）</span>'}</div>
+      <div class="note">👨‍🍳 步驟教學請看影片版（影片陸續補上）。想看更多料理，追蹤 Sunny 營養師的 YouTube 與 LINE @i333。</div>
+    </div>`;
+  document.getElementById('overlay').classList.add('show');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('show')}
+document.getElementById('overlay').onclick=e=>{if(e.target.id==='overlay')closeModal()};
+q.oninput=render;
+render();
+</script>
+</body>
+</html>
