@@ -124,7 +124,7 @@ const grid=document.getElementById('grid'),bar=document.getElementById('bar'),q=
   b.onclick=()=>{curCat=c;[...bar.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');render()};bar.appendChild(b);});
 function match(r){const kw=q.value.trim().toLowerCase();if(curCat!=="全部"&&r.cat!==curCat)return false;if(!kw)return true;
   return r.name.toLowerCase().includes(kw)||r.ing.join(",").toLowerCase().includes(kw);}
-function thumb(r){return r.img?`<img src="images/${r.img}" alt="${r.name}">`:`<div class="ph">${r.name}</div>`;}
+function thumb(r){return r.img?`<img src="${r.img}" alt="${r.name}">`:`<div class="ph">${r.name}</div>`;}
 function render(){const list=DB.recipes.filter(match);countEl.textContent=`共 ${list.length} 道`;
   grid.innerHTML=list.map(r=>`<div class="card" onclick="openModal(${DB.recipes.indexOf(r)})"><div class="thumb"><span class="badge">${r.cat}</span>${r.yt?'<span class="vbadge">▶ 影片</span>':''}${thumb(r)}</div><div class="body"><h3>${r.name}</h3><div class="ing">${r.ing.join('、')}</div></div></div>`).join('')||`<p style="color:#999">找不到符合的食譜</p>`;}
 function tagize(s){return s.split(/[、,]/).map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tag">${x}</span>`).join('');}
@@ -132,7 +132,7 @@ function openModal(i){const r=DB.recipes[i];
   const ingHtml=r.ingFull?tagize(r.ingFull):(r.ing.map(x=>`<span class="tag">${x}</span>`).join('')||'<span style="color:#999">（待補）</span>');
   const left = r.yt
     ? `<div class="mimg mvid"><iframe src="https://www.youtube.com/embed/${r.yt}" title="${r.name}" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>${r.ytNote?`<div class="vnote">ℹ️ ${r.ytNote}</div>`:''}</div>`
-    : `<div class="mimg">${r.img?`<img src="images/${r.img}" alt="${r.name}">`:`<div class="ph">${r.name}</div>`}</div>`;
+    : `<div class="mimg">${r.img?`<img src="${r.img}" alt="${r.name}">`:`<div class="ph">${r.name}</div>`}</div>`;
   let h=`${left}<div class="mbody"><div class="mcat">${r.cat}</div><h2>${r.name}</h2>`;
   h+=`<h4>食材</h4><div class="tags">${ingHtml}</div>`;
   if(r.sea) h+=`<h4>調味料</h4><div class="tags">${tagize(r.sea)}</div>`;
