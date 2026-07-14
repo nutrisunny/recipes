@@ -40,7 +40,7 @@
   .pill{flex:0 0 auto;border:1.5px solid var(--rose);color:var(--rose-d);background:transparent;
        padding:7px 15px;border-radius:20px;font-size:14px;cursor:pointer;white-space:nowrap;transition:.15s}
   .pill.active{background:var(--rose);color:#fff;border-color:var(--rose)}
-  .count{max-width:1100px;margin:14px auto 0;padding:0 16px;color:var(--muted);font-size:13px}
+  .count{max-width:1100px;margin:14px auto 0;padding:0 16px;color:var(--muted);font-size:13px;scroll-margin-top:64px}
   .grid{max-width:1100px;margin:10px auto 40px;padding:0 16px;
        display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
   .card{background:var(--card);border-radius:16px;overflow:hidden;cursor:pointer;
@@ -158,12 +158,12 @@ let curCat="全部", mode="card";
 const PLAY_SVG='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
 const grid=document.getElementById('grid'),bar=document.getElementById('bar'),q=document.getElementById('q'),countEl=document.getElementById('count');
 ["全部",...DB.cats].forEach(c=>{const b=document.createElement('button');b.className='pill'+(c==="全部"?' active':'');b.textContent=c;
-  b.onclick=()=>{curCat=c;[...bar.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');render()};bar.appendChild(b);});
+  b.onclick=()=>{curCat=c;[...bar.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');render();countEl.scrollIntoView()};bar.appendChild(b);});
 let curVCat="全部";
 const vbar=document.getElementById('vbar');
 const vcats=DB.cats.filter(c=>(DB.vrecipes||[]).some(r=>r.cat===c));
 ["全部",...vcats].forEach(c=>{const b=document.createElement('button');b.className='pill'+(c==="全部"?' active':'');b.textContent=c;
-  b.onclick=()=>{curVCat=c;[...vbar.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');render()};vbar.appendChild(b);});
+  b.onclick=()=>{curVCat=c;[...vbar.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');render();document.getElementById('vcount').scrollIntoView()};vbar.appendChild(b);});
 function match(r){const kw=q.value.trim().toLowerCase();if(curCat!=="全部"&&r.cat!==curCat)return false;if(!kw)return true;
   return r.name.toLowerCase().includes(kw)||r.ing.join(",").toLowerCase().includes(kw);}
 function thumb(r){return r.img?`<img src="${r.img}" alt="${r.name}">`:`<div class="ph">${r.name}</div>`;}
@@ -191,7 +191,7 @@ function renderSearch(kw){
   if(vm.length)h+=`<div class="sgrouptitle">影片食譜（${vm.length}）</div><div class="grid vgrid">${vm.map(vidCard).join('')}</div>`;
   document.getElementById('sresults').innerHTML=h||`<p style="color:#999;text-align:center;margin:30px">找不到符合的食譜</p>`;
   document.getElementById('scount').textContent=`搜尋「${q.value.trim()}」：圖卡 ${cm.length} 道 ＋ 影片 ${vm.length} 道`;}
-function setMode(m){mode=m;q.value='';
+function setMode(m){mode=m;q.value='';window.scrollTo({top:0});
   document.getElementById('ms-card').classList.toggle('active',m==='card');
   document.getElementById('ms-vid').classList.toggle('active',m==='vid');
   render();}
