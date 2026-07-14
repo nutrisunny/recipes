@@ -62,7 +62,8 @@
        padding:11px 16px;border-radius:12px;background:#fff;border:1.5px solid var(--rose);
        color:var(--rose-d);font-size:14px;font-weight:700;transition:.15s}
   .longbtn:hover{background:var(--rose);color:#fff}
-  .buyrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .buynote{margin-top:14px;font-size:13.5px;color:#8a6a2f;line-height:1.6;font-weight:600}
+  .buyrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
   .buybtn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:16px;
        background:#fdf6e8;border:1.5px solid var(--tan);color:#8a6a2f;font-size:13px;font-weight:700;transition:.15s}
   .buybtn:hover{background:var(--tan);color:#fff}
@@ -207,13 +208,14 @@ function openVModal(i){const r=DB.vrecipes[i];
   document.getElementById('modal').innerHTML=h;
   document.getElementById('overlay').classList.add('show');}
 function tagize(s){return s.split(/[、,]/).map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tag">${x}</span>`).join('');}
-function buyBtns(t){let h='';
+function buyBtns(t){let h='',note='';
   if(t.includes('蒟蒻米'))h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E8%92%9F%E8%92%BB%E7%B1%B3" target="_blank" rel="noopener">🛒 哪裡買蒟蒻米</a>`;
   if(t.includes('蒟蒻麵'))h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E8%92%9F%E8%92%BB%E9%BA%B5" target="_blank" rel="noopener">🛒 哪裡買蒟蒻麵</a>`;
   if(t.includes('番茄')){
-    h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E7%95%AA%E8%8C%84%E5%8E%9F%E6%B1%81" target="_blank" rel="noopener">🍅 快速版：番茄原汁</a>`;
-    h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E7%95%AA%E8%8C%84%E6%BF%83%E7%B8%AE%E6%B1%81" target="_blank" rel="noopener">🍅 快速版：番茄濃縮汁</a>`;}
-  return h?`<div class="buyrow">${h}</div>`:'';}
+    note=`<div class="buynote">🍅 如果沒有番茄，可以用番茄原汁或番茄濃縮汁代替！</div>`;
+    h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E7%95%AA%E8%8C%84%E5%8E%9F%E6%B1%81" target="_blank" rel="noopener">番茄原汁</a>`;
+    h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E7%95%AA%E8%8C%84%E6%BF%83%E7%B8%AE%E6%B1%81" target="_blank" rel="noopener">番茄濃縮汁</a>`;}
+  return h?note+`<div class="buyrow">${h}</div>`:'';}
 function openModal(i){const r=DB.recipes[i];
   const ingHtml=r.ingFull?tagize(r.ingFull):(r.ing.map(x=>`<span class="tag">${x}</span>`).join('')||'<span style="color:#999">（待補）</span>');
   const left = r.yt
