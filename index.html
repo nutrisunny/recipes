@@ -197,9 +197,10 @@ function setMode(m){mode=m;q.value='';
 function openVModal(i){const r=DB.vrecipes[i];
   let h=`<div class="mimg mvid"><iframe src="https://www.youtube.com/embed/${r.yt}" title="${r.name}" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div>`;
   h+=`<div class="mbody"><div class="mcat">影片食譜${r.cat?'｜'+r.cat:''}</div><h2>${r.name}</h2>`;
-  if(r.ing){h+=`<h4>食材</h4><div class="tags">${tagize(r.ing)}</div>`;h+=buyBtns(r.ing);}
+  if(r.ing){h+=`<h4>食材</h4><div class="tags">${tagize(r.ing)}</div>`;}
   if(r.steps&&r.steps.length){h+=`<h4>作法</h4><ol class="steps">${r.steps.map(s=>`<li>${s}</li>`).join('')}</ol>`;}
   else{h+=`<p style="color:var(--muted);font-size:14px;line-height:1.7;margin:2px 0 0">跟著影片一步一步做，快速學會這道料理 🍳</p>`;}
+  h+=buyBtns(r.ing||'');
   if(r.tip){h+=`<div class="tip">💡 ${r.tip}</div>`;}
   if(r.long){h+=`<a class="longbtn" href="${r.long}" target="_blank" rel="noopener">🎬 觀看完整教學長片</a>`;}
   h+=`<div class="follow"><p>❤️ 喜歡這道料理？追蹤送你營養吃看更多影片食譜！</p><div class="socials">${SOCIAL_MODAL}</div></div></div>`;
@@ -217,10 +218,10 @@ function openModal(i){const r=DB.recipes[i];
     : `<div class="mimg">${r.img?`<img src="${r.img}" alt="${r.name}">`:`<div class="ph">${r.name}</div>`}</div>`;
   let h=`${left}<div class="mbody"><div class="mcat">${r.cat}</div><h2>${r.name}</h2>`;
   h+=`<h4>食材</h4><div class="tags">${ingHtml}</div>`;
-  h+=buyBtns((r.ingFull||'')+','+r.ing.join(','));
   if(r.sea) h+=`<h4>調味料</h4><div class="tags">${tagize(r.sea)}</div>`;
   if(r.steps&&r.steps.length) h+=`<h4>作法</h4><ol class="steps">${r.steps.map(s=>`<li>${s}</li>`).join('')}</ol>`;
   else h+=`<div class="pending">📝 完整步驟陸續整理中，敬請期待</div>`;
+  h+=buyBtns((r.ingFull||'')+','+r.ing.join(','));
   if(r.tip) h+=`<div class="tip">💡 ${r.tip}</div>`;
   h+=`<div class="follow"><p>❤️ 喜歡這道料理？追蹤送你營養吃看更多食譜！</p><div class="socials">${SOCIAL_MODAL}</div></div></div>`;
   document.getElementById('modal').innerHTML=h;
