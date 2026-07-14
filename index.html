@@ -213,12 +213,12 @@ function buyBtns(t,name){let h='',note='';
   if(t.includes('蒟蒻麵'))h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E8%92%9F%E8%92%BB%E9%BA%B5" target="_blank" rel="noopener">🛒 哪裡買蒟蒻麵</a>`;
   if(t.includes('番茄')){
     note+=`<div class="buynote">🍅 如果沒有番茄，可以用番茄原汁或番茄濃縮汁代替！</div>`;
-    h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E7%95%AA%E8%8C%84%E5%8E%9F%E6%B1%81" target="_blank" rel="noopener">🛒 番茄原汁</a>`;
-    h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E7%95%AA%E8%8C%84%E6%BF%83%E7%B8%AE%E6%B1%81" target="_blank" rel="noopener">🛒 番茄濃縮汁</a>`;}
+    h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E7%95%AA%E8%8C%84%E5%8E%9F%E6%B1%81" target="_blank" rel="noopener">🛒 日本番茄汁</a>`;
+    h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E7%95%AA%E8%8C%84%E6%BF%83%E7%B8%AE%E6%B1%81" target="_blank" rel="noopener">🛒 日本番茄濃縮汁</a>`;}
   if((name||'').match(/滷|紅燒|醬燒/)&&t.includes('醬油')){
     note+=`<div class="buynote">調味時，推薦選用成分簡單、無化學添加的醬油。我們自家這款醬油原料極簡，沒有看不懂的化學名詞，只留下最純粹的甘醇，讓每天的健康餐桌美味又毫無負擔。</div>`;
-    if(t.replace(/醬油膏/g,'').includes('醬油'))h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E8%96%84%E9%B9%BD%E9%86%AC%E6%B2%B9" target="_blank" rel="noopener">🛒 薄鹽醬油</a>`;
-    if(t.includes('醬油膏'))h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E9%86%AC%E6%B2%B9%E8%86%8F" target="_blank" rel="noopener">🛒 醬油膏</a>`;}
+    if(t.replace(/醬油膏/g,'').includes('醬油'))h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E8%96%84%E9%B9%BD%E9%86%AC%E6%B2%B9" target="_blank" rel="noopener">🛒 屏大薄鹽醬油</a>`;
+    if(t.includes('醬油膏'))h+=`<a class="buybtn" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E9%86%AC%E6%B2%B9%E8%86%8F" target="_blank" rel="noopener">🛒 屏大醬油膏</a>`;}
   return h?note+`<div class="buyrow">${h}</div>`:'';}
 function openModal(i){const r=DB.recipes[i];
   const ingHtml=r.ingFull?tagize(r.ingFull):(r.ing.map(x=>`<span class="tag">${x}</span>`).join('')||'<span style="color:#999">（待補）</span>');
