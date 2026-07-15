@@ -103,6 +103,11 @@
   .s-btn:hover{opacity:.9}
   .close{position:absolute;top:20px;right:22px;background:#fff;border:none;width:38px;height:38px;
        border-radius:50%;font-size:20px;cursor:pointer;box-shadow:0 2px 8px rgba(60,45,35,.2);z-index:60}
+  .totop{position:fixed;right:18px;bottom:22px;width:46px;height:46px;border-radius:50%;
+       background:var(--rose);color:#fff;border:none;font-size:20px;font-weight:700;cursor:pointer;
+       box-shadow:0 4px 12px rgba(120,80,60,.35);display:none;z-index:40;transition:.15s}
+  .totop:hover{background:var(--rose-d)}
+  .totop.show{display:block}
   footer{background:#efe0d0;color:var(--ink);text-align:center;padding:26px 16px}
   footer .flogo{width:56px;height:56px;border-radius:50%;box-shadow:0 2px 8px rgba(120,80,60,.2)}
   footer h3{margin:8px 0 4px;font-size:17px}
@@ -145,6 +150,7 @@
   <div class="modal" id="modal"></div>
 </div>
 
+<button class="totop" id="totop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到頂端">↑</button>
 <footer>
   <img class="flogo" src="logo.png" alt="送你營養吃">
   <h3>送你營養吃</h3>
@@ -239,6 +245,7 @@ function openModal(i){const r=DB.recipes[i];
 function closeModal(){document.getElementById('overlay').classList.remove('show')}
 document.getElementById('overlay').onclick=e=>{if(e.target.id==='overlay')closeModal()};
 q.oninput=render;render();
+window.addEventListener('scroll',()=>{document.getElementById('totop').classList.toggle('show',window.scrollY>600)});
 </script>
 </body>
 </html>
