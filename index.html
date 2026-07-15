@@ -165,12 +165,12 @@ let curCat="全部", mode="card";
 const PLAY_SVG='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
 const grid=document.getElementById('grid'),bar=document.getElementById('bar'),q=document.getElementById('q'),countEl=document.getElementById('count');
 ["全部",...DB.cats].forEach(c=>{const b=document.createElement('button');b.className='pill'+(c==="全部"?' active':'');b.textContent=c;
-  b.onclick=()=>{curCat=c;[...bar.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');render();countEl.scrollIntoView()};bar.appendChild(b);});
+  b.onclick=()=>{curCat=c;[...bar.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');render();window.scrollTo({top:0})};bar.appendChild(b);});
 let curVCat="全部";
 const vbar=document.getElementById('vbar');
 const vcats=DB.cats.filter(c=>(DB.vrecipes||[]).some(r=>r.cat===c));
 ["全部",...vcats].forEach(c=>{const b=document.createElement('button');b.className='pill'+(c==="全部"?' active':'');b.textContent=c;
-  b.onclick=()=>{curVCat=c;[...vbar.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');render();document.getElementById('vcount').scrollIntoView()};vbar.appendChild(b);});
+  b.onclick=()=>{curVCat=c;[...vbar.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');render();window.scrollTo({top:0})};vbar.appendChild(b);});
 function match(r){const kw=q.value.trim().toLowerCase();if(curCat!=="全部"&&r.cat!==curCat)return false;if(!kw)return true;
   return r.name.toLowerCase().includes(kw)||r.ing.join(",").toLowerCase().includes(kw);}
 function thumb(r){return r.img?`<img src="${r.img}" alt="${r.name}">`:`<div class="ph">${r.name}</div>`;}
