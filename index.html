@@ -271,7 +271,7 @@ function openModal(i){const r=DB.recipes[i];
   const mEl2=document.getElementById('modal');mEl2.classList.remove('longmode');mEl2.innerHTML=h;
   document.getElementById('overlay').classList.add('show');}
 function seekTo(id,s){const f=document.querySelector('.modal iframe');if(f){f.src=`https://www.youtube.com/embed/${id}?start=${s}&autoplay=1`;}}
-function closeModal(){document.getElementById('overlay').classList.remove('show')}
+function closeModal(){document.getElementById('overlay').classList.remove('show');document.querySelectorAll('.modal iframe').forEach(f=>f.src='')}
 document.getElementById('overlay').onclick=e=>{if(e.target.id==='overlay')closeModal()};
 q.oninput=render;render();
 window.addEventListener('scroll',()=>{document.getElementById('totop').classList.toggle('show',window.scrollY>600)});
