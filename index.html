@@ -215,7 +215,7 @@
 <div id="plateview" style="display:none">
   <div class="platewrap">
     <p class="platetitle">今天吃什麼？讓營養師幫你配 🍽️</p>
-    <p class="platesub">照著營養餐盤的六大類比例，一鍵配出一餐；點格子看食譜、點 🔄 單格換菜（湯品自動避開澱粉湯，不與主食重複）</p>
+    <p class="platesub">照著六角餐盤的六大類比例，一鍵配出一餐；點格子看食譜、點 🔄 單格換菜（湯品自動避開澱粉湯，不與主食重複）</p>
     <div class="platearea">
       <div class="plate">
         <div class="slot s-fruit"><span class="slabel">水果類</span><span class="sname" id="p-fruit"></span><button class="sroll" onclick="rollFixed('fruit')">🔄</button></div>
@@ -232,7 +232,7 @@
     <div class="platebtns">
       <button class="msbtn" onclick="rollPlate()">🎲 重新配一餐</button>
       <button class="msbtn" onclick="copyMenu(this)">📋 複製菜單</button>
-      <a class="platebuy" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E9%A4%90%E7%9B%A4" target="_blank" rel="noopener">🛒 我也要這個營養餐盤</a>
+      <a class="platebuy" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E9%A4%90%E7%9B%A4" target="_blank" rel="noopener">🛒 我也要這個六角餐盤</a>
     </div>
   </div>
 </div>
@@ -360,7 +360,10 @@ function menuLines(){const g=k=>document.getElementById('p-'+k).textContent;
           ['水果',g('fruit')],['堅果',g('nut')],['乳品',g('dairy')]];}
 function renderMenu(){document.getElementById('platemenu').innerHTML=
   menuLines().map(([k,v])=>`<div><b>${k}</b>${v}</div>`).join('');}
-function copyMenu(btn){const NL=String.fromCharCode(10);const txt='🍽️ 今日營養餐盤菜單'+NL+menuLines().map(([k,v])=>k+'：'+v).join(NL)+NL+'— 送你營養吃 https://nutrisunny.github.io/recipes/';
+const MENU_EMOJI={'全穀雜糧':'🍚','豆蛋魚肉':'🍗','蔬菜':'🥬','湯品':'🍲','水果':'🍎','堅果':'🥜','乳品':'🥛'};
+function copyMenu(btn){const NL=String.fromCharCode(10);
+  const body=menuLines().map(([k,v])=>(MENU_EMOJI[k]||'')+' '+k+'｜'+v).join(NL);
+  const txt='🍽️ 今天這樣吃，六大類一次到位'+NL+NL+body+NL+NL+'by 營養師 Sunny 的六角餐盤'+NL+'食譜看這裡 👉 https://nutrisunny.github.io/recipes/';
   navigator.clipboard.writeText(txt).then(()=>{const o=btn.textContent;btn.textContent='✅ 已複製';setTimeout(()=>btn.textContent=o,1500);});}
 function setMode(m){mode=m;q.value='';window.scrollTo({top:0});
   document.getElementById('ms-card').classList.toggle('active',m==='card');
