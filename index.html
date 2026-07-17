@@ -31,6 +31,39 @@
   .views{margin-top:6px;font-size:12px;color:var(--muted)}
   .sortbar{position:static}
   .sortbar .pill{font-size:13px;padding:5px 12px}
+  .platewrap{max-width:720px;margin:24px auto 50px;padding:0 16px;text-align:center}
+  .platetitle{font-size:20px;font-weight:800;margin:0 0 4px}
+  .platesub{font-size:13px;color:var(--muted);margin:0 0 18px}
+  .platearea{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap}
+  .plate{position:relative;width:min(460px,92vw);aspect-ratio:960/890;
+       background:url(plate.png) center/contain no-repeat}
+  .slot{position:absolute;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;
+       gap:1px;transition:.15s;text-align:center;padding:2px}
+  .slot .sname{background:rgba(255,255,255,.92);border-radius:8px;padding:3px 7px;box-shadow:0 1px 4px rgba(120,80,60,.15)}
+  .slot:hover .sname{background:#fff;transform:scale(1.04)}
+  .slabel{font-size:10px;color:#8a5a3b;letter-spacing:1px;font-weight:700;background:rgba(255,255,255,.75);border-radius:6px;padding:1px 6px}
+  .sname{font-size:13px;font-weight:800;line-height:1.25;color:var(--ink)}
+  .sroll{position:absolute;right:0;bottom:-2px;border:none;background:transparent;cursor:pointer;font-size:12px;padding:2px;opacity:.75}
+  .sroll:hover{opacity:1}
+  .s-fruit{top:12%;left:15%;width:42%;height:15%}
+  .s-nut{top:12%;left:68%;width:18%;height:13%}
+  .s-nut .sname{font-size:10px;font-weight:600;padding:2px 5px}
+  .s-fruit .sname{font-size:11px;font-weight:600}
+  .s-grain{top:34%;left:8%;width:46%;height:14%}
+  .s-soup{top:38%;left:57%;width:34%;height:30%;border-radius:50%}
+  .s-protein{top:56%;left:7%;width:46%;height:14%}
+  .s-veg1{top:79%;left:14%;width:30%;height:14%}
+  .s-veg2{top:79%;left:48%;width:30%;height:14%}
+  .dairycup{position:relative;width:130px;height:133px;background:url(plate_bowl.png) center/contain no-repeat;
+       display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+  .dairycup .sname{font-size:11px;font-weight:700;background:rgba(255,255,255,.92);border-radius:8px;padding:3px 7px}
+  .dairycup .sroll{right:14%;bottom:14%}
+  .platemenu{max-width:420px;margin:22px auto 0;text-align:left;background:#fff;border:1px solid var(--line);
+       border-radius:14px;padding:14px 20px;font-size:14px;line-height:2}
+  .platemenu b{color:var(--rose-d);font-weight:700;margin-right:6px}
+  .platebtns{margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .platebuy{display:inline-flex;align-items:center;border:1.5px solid var(--tan);background:#fff;color:#8a6a30;
+       font-size:15px;font-weight:700;padding:9px 26px;border-radius:24px}
   .rel{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
   .relcard{flex:0 0 calc(33.3% - 7px);max-width:calc(33.3% - 7px);cursor:pointer;background:#faf6ee;
        border:1px solid var(--line);border-radius:10px;overflow:hidden;transition:.15s}
@@ -155,6 +188,7 @@
   <button id="ms-card" class="msbtn active" onclick="setMode('card')">圖卡食譜</button>
   <button id="ms-vid" class="msbtn" onclick="setMode('vid')">影片食譜</button>
   <button id="ms-long" class="msbtn" onclick="setMode('long')">長片教學</button>
+  <button id="ms-plate" class="msbtn" onclick="setMode('plate')">🍽️ 幫我配餐</button>
 </div>
 <div class="bar" id="zbar" style="padding-top:2px"></div>
 <div id="cardview">
@@ -173,6 +207,30 @@
   <div class="bar sortbar" id="lsortbar" style="border-bottom:none;padding-top:6px;padding-bottom:2px"></div>
   <div class="count" id="lcount"></div>
   <div class="grid vgrid" id="lgrid"></div>
+</div>
+<div id="plateview" style="display:none">
+  <div class="platewrap">
+    <p class="platetitle">今天吃什麼？讓營養師幫你配 🍽️</p>
+    <p class="platesub">照著營養餐盤的六大類比例，一鍵配出一餐；點格子看食譜、點 🔄 單格換菜（湯品自動避開澱粉湯，不與主食重複）</p>
+    <div class="platearea">
+      <div class="plate">
+        <div class="slot s-fruit"><span class="slabel">水果類</span><span class="sname" id="p-fruit"></span><button class="sroll" onclick="rollFixed('fruit')">🔄</button></div>
+        <div class="slot s-nut"><span class="slabel">堅果類</span><span class="sname" id="p-nut"></span><button class="sroll" onclick="rollFixed('nut')">🔄</button></div>
+        <div class="slot s-grain" onclick="openPlate('grain')"><span class="slabel">全穀雜糧類</span><span class="sname" id="p-grain"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('grain')">🔄</button></div>
+        <div class="slot s-soup" onclick="openPlate('soup')"><span class="slabel">彈性空間・湯</span><span class="sname" id="p-soup"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('soup')">🔄</button></div>
+        <div class="slot s-protein" onclick="openPlate('protein')"><span class="slabel">豆蛋魚肉類</span><span class="sname" id="p-protein"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('protein')">🔄</button></div>
+        <div class="slot s-veg1" onclick="openPlate('veg1')"><span class="slabel">蔬菜類</span><span class="sname" id="p-veg1"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('veg1')">🔄</button></div>
+        <div class="slot s-veg2" onclick="openPlate('veg2')"><span class="slabel">蔬菜類</span><span class="sname" id="p-veg2"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('veg2')">🔄</button></div>
+      </div>
+      <div class="dairycup"><span class="slabel">乳品類</span><span class="sname" id="p-dairy"></span><button class="sroll" onclick="rollFixed('dairy')">🔄</button></div>
+    </div>
+    <div class="platemenu" id="platemenu"></div>
+    <div class="platebtns">
+      <button class="msbtn" onclick="rollPlate()">🎲 重新配一餐</button>
+      <button class="msbtn" onclick="copyMenu(this)">📋 複製菜單</button>
+      <a class="platebuy" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E9%A4%90%E7%9B%A4" target="_blank" rel="noopener">🛒 我也要這個營養餐盤</a>
+    </div>
+  </div>
 </div>
 <div id="searchview" style="display:none">
   <div class="count" id="scount"></div>
@@ -239,6 +297,7 @@ function render(){
   cv.style.display=mode==='card'?'block':'none';
   vv.style.display=mode==='vid'?'block':'none';
   document.getElementById('longview').style.display=mode==='long'?'block':'none';
+  document.getElementById('plateview').style.display=mode==='plate'?'block':'none';
   if(mode==='vid')renderV();else if(mode==='long')renderL();else renderCards();}
 function renderCards(){const list=DB.recipes.filter(match);countEl.textContent=`共 ${list.length} 道`;
   grid.innerHTML=list.map(cardCard).join('')||`<p style="color:#999">找不到符合的食譜</p>`;}
@@ -267,10 +326,44 @@ function renderSearch(kw){
 function renderL(){const list=applySort((DB.vrecipes||[]).filter(r=>r.wide).filter(zmatch).filter(r=>curLCat==="全部"||r.cat===curLCat));
   document.getElementById('lcount').textContent=`共 ${list.length} 道長片教學`;
   document.getElementById('lgrid').innerHTML=list.map(vidCard).join('')||`<p style="color:#999">尚無長片教學</p>`;}
+const PLATE_CATS={grain:['全穀雜糧'],protein:['肉類','海鮮魚類','豆蛋'],veg1:['蔬菜'],veg2:['蔬菜'],soup:['湯品']};
+const PLATE_FIXED={fruit:['當季水果 1 份（約 1 個拳頭大）','芭樂 1 顆','蘋果 1 顆','香蕉 1 根','奇異果 2 顆','橘子 1 顆','小番茄 1 碗'],
+nut:['原味堅果 1 小把','無調味腰果 5-8 顆','核桃 2-3 顆','杏仁 8-10 顆'],
+dairy:['鮮奶 240ml','無糖優格 1 杯','無糖優酪乳 1 杯','起司 2 片']};
+let plateSel={};
+const STARCH_KW=['馬鈴薯','山藥','薏仁','南瓜','芋頭','玉米','栗子','地瓜','蓮藕','米糕','粥','冬粉'];
+function hasStarch(r){const t=(r.name+(Array.isArray(r.ing)?r.ing.join(''):String(r.ing||''))).replace(/玉米雞/g,'');return STARCH_KW.some(k=>t.includes(k));}
+const RICE_RE=/飯|麵|便當|糕|粿|糰|粽|包/;
+const ONEDISH_RE=/炒飯|炒麵|炒米粉|便當|咖哩飯|義大利麵|油飯|沙拉$|漢堡|壽司|吐司|刈包|潤餅|捲餅|飯糰/;
+function platePool(cats,excl,slot){let pool=[...DB.recipes.map((r,i)=>({r,i,vid:false})),...(DB.vrecipes||[]).map((r,i)=>({r,i,vid:true}))]
+  .filter(p=>p.r.img&&cats.includes(p.r.cat)&&p.r.name!==excl&&!p.r.name.endsWith('醬'));
+  pool=pool.filter(p=>!ONEDISH_RE.test(p.r.name));
+  if(slot==='soup')pool=pool.filter(p=>!hasStarch(p.r));
+  if(slot==='protein'||slot==='veg1'||slot==='veg2')pool=pool.filter(p=>!RICE_RE.test(p.r.name));
+  return pool;}
+function rollSlot(k){const excl=k==='veg1'?(plateSel.veg2&&plateSel.veg2.r.name):(k==='veg2'?(plateSel.veg1&&plateSel.veg1.r.name):null);
+  const pool=platePool(PLATE_CATS[k],excl,k);
+  plateSel[k]=pool[Math.floor(Math.random()*pool.length)];
+  document.getElementById('p-'+k).textContent=plateSel[k]?plateSel[k].r.name:'—';if(document.getElementById('platemenu'))renderMenu();}
+function rollFixed(k){const arr=PLATE_FIXED[k];const cur=document.getElementById('p-'+k).textContent;
+  let n;do{n=arr[Math.floor(Math.random()*arr.length)];}while(arr.length>1&&n===cur);
+  document.getElementById('p-'+k).textContent=n;if(document.getElementById('platemenu'))renderMenu();}
+function rollPlate(){['grain','protein','veg1','veg2','soup'].forEach(rollSlot);['fruit','nut','dairy'].forEach(rollFixed);renderMenu();
+  try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:'配餐',title:'配餐',event:true});}catch(e){}}
+function openPlate(k){const p=plateSel[k];if(!p)return;(p.vid?openVModal:openModal)(p.i);}
+function menuLines(){const g=k=>document.getElementById('p-'+k).textContent;
+  return [['全穀雜糧',g('grain')],['豆蛋魚肉',g('protein')],['蔬菜',g('veg1')+'、'+g('veg2')],['湯品',g('soup')],
+          ['水果',g('fruit')],['堅果',g('nut')],['乳品',g('dairy')]];}
+function renderMenu(){document.getElementById('platemenu').innerHTML=
+  menuLines().map(([k,v])=>`<div><b>${k}</b>${v}</div>`).join('');}
+function copyMenu(btn){const NL=String.fromCharCode(10);const txt='🍽️ 今日營養餐盤菜單'+NL+menuLines().map(([k,v])=>k+'：'+v).join(NL)+NL+'— 送你營養吃 https://nutrisunny.github.io/recipes/';
+  navigator.clipboard.writeText(txt).then(()=>{const o=btn.textContent;btn.textContent='✅ 已複製';setTimeout(()=>btn.textContent=o,1500);});}
 function setMode(m){mode=m;q.value='';window.scrollTo({top:0});
   document.getElementById('ms-card').classList.toggle('active',m==='card');
   document.getElementById('ms-vid').classList.toggle('active',m==='vid');
   document.getElementById('ms-long').classList.toggle('active',m==='long');
+  document.getElementById('ms-plate').classList.toggle('active',m==='plate');
+  if(m==='plate'&&!plateSel.grain)rollPlate();
   render();}
 function ingTokens(r){const raw=Array.isArray(r.ing)?r.ing:String(r.ing||'').split('、');
   return raw.map(x=>x.trim().split(/[ （(]/)[0]).filter(x=>x&&x.length>=2);}
