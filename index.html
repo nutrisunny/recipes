@@ -281,6 +281,7 @@
   </div>
 </div>
 <div id="searchview" style="display:none">
+  <div class="bar" id="sbar" style="position:static"></div>
   <div class="count" id="scount"></div>
   <div id="sresults"></div>
 </div>
@@ -306,8 +307,14 @@ let curCat="全部", mode="card";
 const PLAY_SVG='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
 const grid=document.getElementById('grid'),bar=document.getElementById('bar'),q=document.getElementById('q'),countEl=document.getElementById('count');
 {const lb=document.createElement('span');lb.className='barlabel';lb.textContent='分類';bar.appendChild(lb);}
+function syncCatBars(){['bar','sbar'].forEach(id=>{const el=document.getElementById(id);if(!el)return;
+  [...el.querySelectorAll('.pill')].forEach(x=>x.classList.toggle('active',x.textContent===curCat));});}
 ["全部",...DB.cats].forEach(c=>{const b=document.createElement('button');b.className='pill'+(c==="全部"?' active':'');b.textContent=c;
-  b.onclick=()=>{curCat=c;[...bar.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');render();window.scrollTo({top:0})};bar.appendChild(b);});
+  b.onclick=()=>{curCat=c;syncCatBars();render();window.scrollTo({top:0})};bar.appendChild(b);});
+{const sbar=document.getElementById('sbar');
+ const lb=document.createElement('span');lb.className='barlabel';lb.textContent='分類';sbar.appendChild(lb);
+ ["全部",...DB.cats].forEach(c=>{const b=document.createElement('button');b.className='pill'+(c==="全部"?' active':'');b.textContent=c;
+   b.onclick=()=>{curCat=c;syncCatBars();render();};sbar.appendChild(b);});}
 let curVCat="全部";
 const vbar=document.getElementById('vbar');
 const vcats=DB.cats.filter(c=>(DB.vrecipes||[]).some(r=>r.cat===c));
@@ -364,9 +371,10 @@ function renderV(){const list=applySort((DB.vrecipes||[]).filter(r=>!r.wide).fil
   document.getElementById('vcount').textContent=`共 ${list.length} 道影片食譜`;
   document.getElementById('vgrid').innerHTML=list.map(vidCard).join('')||`<p style="color:#999">找不到符合的影片食譜</p>`;}
 function renderSearch(kw){
-  const cm=DB.recipes.filter(zmatch).filter(r=>kwMatchCard(r,kw));
-  const vm=(DB.vrecipes||[]).filter(zmatch).filter(r=>!r.wide&&r.name.toLowerCase().includes(kw));
-  const lm=(DB.vrecipes||[]).filter(zmatch).filter(r=>r.wide&&r.name.toLowerCase().includes(kw));
+  const cmatch=r=>curCat==="全部"||r.cat===curCat;
+  const cm=DB.recipes.filter(zmatch).filter(cmatch).filter(r=>kwMatchCard(r,kw));
+  const vm=(DB.vrecipes||[]).filter(zmatch).filter(cmatch).filter(r=>!r.wide&&r.name.toLowerCase().includes(kw));
+  const lm=(DB.vrecipes||[]).filter(zmatch).filter(cmatch).filter(r=>r.wide&&r.name.toLowerCase().includes(kw));
   let h='';
   if(cm.length)h+=`<div class="sgrouptitle">圖卡食譜（${cm.length}）</div><div class="grid">${cm.map(cardCard).join('')}</div>`;
   if(vm.length)h+=`<div class="sgrouptitle">影片食譜（${vm.length}）</div><div class="grid vgrid">${vm.map(vidCard).join('')}</div>`;
