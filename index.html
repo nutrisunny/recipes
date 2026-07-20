@@ -251,9 +251,11 @@
       <div class="dairycup"><span class="slabel">乳品類</span><span class="sname" id="p-dairy"></span><button class="sroll" onclick="rollFixed('dairy')">🔄</button></div>
     </div>
     <div class="platemenu" id="platemenu"></div>
+    <div class="platebtns" style="margin-top:10px">
+      <button class="msbtn" onclick="rollPlate(true)">🎲 重新配一餐</button>
+    </div>
     <div class="shoplist" id="shoplist"></div>
     <div class="platebtns">
-      <button class="msbtn" onclick="rollPlate()">🎲 重新配一餐</button>
       <button class="msbtn" onclick="copyMenu(this)">📋 複製菜單</button>
       <button class="msbtn" onclick="copyShop(this)">🛒 複製買菜清單</button>
       <a class="platebuy" href="https://i333.tw/%E9%A3%9F%E8%AD%9C%E9%A4%90%E7%9B%A4" target="_blank" rel="noopener">🛒 我也要這個六角餐盤</a>
@@ -395,7 +397,8 @@ function rollSlot(k){const excl=k==='veg1'?(plateSel.veg2&&plateSel.veg2.r.name)
 function rollFixed(k){const arr=PLATE_FIXED[k];const cur=document.getElementById('p-'+k).textContent;
   let n;do{n=arr[Math.floor(Math.random()*arr.length)];}while(arr.length>1&&n===cur);
   document.getElementById('p-'+k).textContent=n;if(document.getElementById('platemenu'))renderMenu();}
-function rollPlate(){['grain','protein','veg1','veg2','soup'].forEach(rollSlot);['fruit','nut','dairy'].forEach(rollFixed);renderMenu();
+function rollPlate(scroll){['grain','protein','veg1','veg2','soup'].forEach(rollSlot);['fruit','nut','dairy'].forEach(rollFixed);renderMenu();
+  if(scroll){const pa=document.querySelector('.platearea');if(pa)pa.scrollIntoView({behavior:'smooth',block:'start'});}
   try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:'配餐',title:'配餐',event:true});}catch(e){}}
 function openPlate(k){const p=plateSel[k];if(!p)return;(p.vid?openVModal:openModal)(p.i);}
 const SEASON_RE=/^(鹽巴|鹽|糖|醬油|醬油膏|油|米酒|酒|白醋|烏醋|醋|萬用醋|葡萄籽油|苦茶油|沙茶|胡椒|白胡椒|黑胡椒|香油|麻油|辣油|橄欖油|苦茶油|玄米油|芥花油|葵花油|酪梨油|冰糖|味醂|味噌|蠔油|素蠔油|高湯|水|太白粉|地瓜粉|麵粉|玉米粉|馬鈴薯粉|樹薯粉|吉利T|昆布粉|洋蔥粉|薑黃|咖哩粉|五香粉|八角|花椒|滷包|味素|芝麻醬|番茄醬|沙拉油|噴油|辣椒醬|豆瓣醬|鹽麴|赤藻糖醇|蜂蜜)/;
