@@ -342,6 +342,7 @@ function render(){
   const sv=document.getElementById('searchview'),cv=document.getElementById('cardview'),vv=document.getElementById('vidview');
   if(kw){sv.style.display='block';cv.style.display='none';vv.style.display='none';document.getElementById('longview').style.display='none';document.getElementById('plateview').style.display='none';document.getElementById('wheelview').style.display='none';renderSearch(kw);return;}
   sv.style.display='none';
+  document.getElementById('zbar').style.display=(mode==='plate'||mode==='wheel')?'none':'flex';
   cv.style.display=mode==='card'?'block':'none';
   vv.style.display=mode==='vid'?'block':'none';
   document.getElementById('longview').style.display=mode==='long'?'block':'none';
