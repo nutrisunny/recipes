@@ -20,7 +20,9 @@
   header .logo{width:88px;height:88px;border-radius:50%;box-shadow:0 4px 14px rgba(120,80,60,.18);background:#fff}
   header h1{margin:10px 0 2px;font-size:25px;font-weight:800;color:var(--ink)}
   header p{margin:0;font-size:13px;color:#7d6b58}
-  .search-wrap{max-width:520px;margin:16px auto 0;position:relative}
+  .search-wrap{max-width:520px;margin:0 auto;position:relative;max-height:0;opacity:0;overflow:hidden;
+       transition:max-height .35s ease,opacity .3s ease,margin-top .35s ease}
+  .search-wrap.open{max-height:100px;opacity:1;margin-top:16px}
   .search-wrap input{width:100%;padding:14px 16px 14px 44px;border:none;border-radius:30px;
        font-size:16px;box-shadow:0 4px 16px rgba(120,80,60,.14);outline:none;background:#fff}
   .search-wrap svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);opacity:.4}
@@ -48,11 +50,14 @@
        cursor:pointer;padding:11px 20px;min-height:44px;letter-spacing:1px;border-radius:22px;transition:.15s;font-family:inherit}
   .browsetoggle:hover{color:var(--rose-d);background:#fbeef1}
   .browsetoggle.active{color:#fff;background:var(--rose)}
-  .feat-title{max-width:1100px;margin:22px auto 2px;padding:0 16px;font-size:21px;font-weight:800;color:var(--rose-d)}
-  .feat-grid{max-width:1100px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
-  .feat-grid .card h3{font-size:18px}
+  .feat-title{max-width:1100px;margin:22px auto 0;padding:0 16px;font-size:21px;font-weight:800;color:var(--rose-d)}
+  .feat-sub{max-width:1100px;margin:2px auto 4px;padding:0 16px;font-size:13.5px;color:var(--muted)}
+  .grid.feat-grid{max-width:1100px;grid-template-columns:repeat(4,1fr);gap:20px}
+  .feat-grid .card h3{font-size:19px;margin:0 0 5px}
+  .feat-grid .card .ing{font-size:13.5px;-webkit-line-clamp:2}
   .feat-grid .body{padding:13px 15px 15px}
-  @media(max-width:640px){.feat-grid{grid-template-columns:repeat(2,1fr);gap:12px}.feat-grid .card h3{font-size:17px}}
+  @media(max-width:900px){.grid.feat-grid{grid-template-columns:repeat(3,1fr);gap:16px}}
+  @media(max-width:640px){.grid.feat-grid{grid-template-columns:repeat(2,1fr);gap:12px}.feat-grid .card h3{font-size:17px}.feat-grid .card .ing{font-size:13px}}
   .homehint{text-align:center;padding:20px 20px 60px;color:var(--muted)}
   .homehint p{margin:7px 0;font-size:15px;line-height:1.6}
   .homehint .hh-sub{font-size:13.5px;opacity:.85}
@@ -256,12 +261,11 @@
     .bar{gap:9px 8px;padding:11px 12px}
     .chap{min-height:40px}
     .buybtn,.longbtn{min-height:44px}
-    .hnbtn{flex:1 1 44%;max-width:none;min-height:96px}
+    .hnbtn{min-height:92px;max-width:none}
     .hnbtn b{font-size:18px}
+    #ms-search{flex:1 1 100%}
+    #ms-wheel,#ms-plate{flex:1 1 calc(50% - 6px)}
     .grid,.vgrid{grid-template-columns:repeat(2,1fr);gap:12px}
-  }
-  @media(max-width:380px){
-    .hnbtn{flex:1 1 100%}
   }
 </style>
 </head>
@@ -270,7 +274,7 @@
   <img class="logo" src="logo.png" alt="送你營養吃" onclick="setMode('home')" style="cursor:pointer">
   <h1 onclick="setMode('home')" style="cursor:pointer">送你營養吃</h1>
   <p>家常食譜 ｜ 一菜一卡，食材清清楚楚</p>
-  <div class="search-wrap">
+  <div class="search-wrap" id="searchwrap">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
     <input id="q" placeholder="搜尋菜名或食材，例如「番茄」「雞胸」">
   </div>
@@ -281,11 +285,12 @@
   <button id="ms-plate" class="hnbtn" onclick="setMode('plate')"><span class="hnico">🍽️</span><b>幫我配餐</b><i>六大類配一餐</i></button>
 </div>
 <div class="browsetoggle-wrap">
-  <button class="browsetoggle" id="browsetoggle" onclick="setMode('card')">📖 瀏覽全部食譜 <span id="browsecount"></span></button>
+  <button class="browsetoggle" id="browsetoggle" onclick="setMode('all')">📖 瀏覽全部食譜 <span id="browsecount"></span></button>
 </div>
 <div id="browsenav" style="display:none">
   <div class="modeswitch submodeswitch">
-    <button id="ms-card" class="msbtn active" onclick="setMode('card')">圖卡食譜</button>
+    <button id="ms-all" class="msbtn active" onclick="setMode('all')">全部形式</button>
+    <button id="ms-card" class="msbtn" onclick="setMode('card')">圖卡食譜</button>
     <button id="ms-vid" class="msbtn" onclick="setMode('vid')">影片食譜</button>
     <button id="ms-long" class="msbtn" onclick="setMode('long')">長片教學</button>
   </div>
@@ -295,6 +300,11 @@
 <div id="homefeatured"></div>
 <div id="homehint" class="homehint">
   <p class="hh-sub">共 <span id="hh-count"></span> 道家常食譜 ｜ 愛營養 Sunny 營養師親自設計</p>
+</div>
+<div id="allview" style="display:none">
+  <div class="bar" id="abar"></div>
+  <div class="count" id="acount"></div>
+  <div class="grid" id="agrid"></div>
 </div>
 <div id="cardview">
   <div class="bar" id="bar"></div>
@@ -469,22 +479,23 @@ function matchSearch(r,kw,h){return searchText(r).includes(kw)||(h.zs.length>0&&
 function render(){
   const kw=q.value.trim().toLowerCase();
   const set=(id,show)=>{const e=document.getElementById(id);if(e)e.style.display=show?'block':'none';};
-  const browsing=(mode==='card'||mode==='vid'||mode==='long');
+  const browsing=(mode==='all'||mode==='card'||mode==='vid'||mode==='long');
   document.getElementById('ms-search').classList.toggle('active',!!kw);
   if(kw){
-    ['cardview','vidview','longview','plateview','wheelview','browsenav','homehint','homefeatured'].forEach(id=>set(id,false));
+    ['allview','cardview','vidview','longview','plateview','wheelview','browsenav','homehint','homefeatured'].forEach(id=>set(id,false));
     set('searchview',true);renderSearch(kw);return;}
   set('searchview',false);
   document.getElementById('browsenav').style.display=browsing?'block':'none';
   set('homehint',mode==='home');
   set('homefeatured',mode==='home');
   if(mode==='home')renderHome();
+  set('allview',mode==='all');
   set('cardview',mode==='card');
   set('vidview',mode==='vid');
   set('longview',mode==='long');
   set('plateview',mode==='plate');
   set('wheelview',mode==='wheel');
-  if(mode==='vid')renderV();else if(mode==='long')renderL();else if(mode==='card')renderCards();}
+  if(mode==='vid')renderV();else if(mode==='long')renderL();else if(mode==='all')renderAll();else if(mode==='card')renderCards();}
 function renderCards(){const list=DB.recipes.filter(match);countEl.textContent=`共 ${list.length} 道`;
   grid.innerHTML=list.map(cardCard).join('')||`<p style="color:#999">找不到符合的食譜</p>`;}
 let homeDone=false;
@@ -500,8 +511,20 @@ function renderHome(){if(homeDone)return;homeDone=true;
     top.push(p);gs.forEach(g=>used[g]=(used[g]||0)+1);}
   for(const p of pool){if(top.length>=8)break;if(!top.includes(p))top.push(p);}
   document.getElementById('homefeatured').innerHTML=
-    '<h2 class="feat-title">🔥 熱門食譜</h2><div class="grid feat-grid">'+
+    '<h2 class="feat-title">🔥 熱門影片食譜</h2><p class="feat-sub">大家最近最常看的 8 道料理</p><div class="grid feat-grid">'+
     top.map(p=>p.vid?vidCard(p.r):cardCard(p.r)).join('')+'</div>';}
+// 全部形式：一次顯示全部食譜（圖卡＋影片＋長片），依分類分組
+let curACat="全部";
+{const ab=document.getElementById('abar');
+ const lb=document.createElement('span');lb.className='barlabel';lb.textContent='分類';ab.appendChild(lb);
+ ["全部",...DB.cats].forEach(c=>{const b=document.createElement('button');b.className='pill'+(c==="全部"?' active':'');b.textContent=c;
+   b.onclick=()=>{curACat=c;[...ab.querySelectorAll('.pill')].forEach(x=>x.classList.remove('active'));b.classList.add('active');render();window.scrollTo({top:0});};ab.appendChild(b);});}
+function renderAll(){
+  const all=[...DB.recipes.map(r=>({r,vid:false})),...(DB.vrecipes||[]).map(r=>({r,vid:true}))]
+    .filter(p=>zmatch(p.r)&&fmatch(p.r)&&(curACat==="全部"||p.r.cat===curACat));
+  all.sort((a,b)=>{const ca=DB.cats.indexOf(a.r.cat),cb=DB.cats.indexOf(b.r.cat);return (ca<0?99:ca)-(cb<0?99:cb);});
+  document.getElementById('acount').textContent=`共 ${all.length} 道`;
+  document.getElementById('agrid').innerHTML=all.map(p=>p.vid?vidCard(p.r):cardCard(p.r)).join('')||`<p style="color:#999">找不到符合的食譜</p>`;}
 let curSort="default";
 const SORTS=[["預設","default"],["觀看數多→少","desc"],["觀看數少→多","asc"]];
 function buildSortBar(id){const bar=document.getElementById(id);
@@ -646,18 +669,20 @@ function spinWheel(){if(spinning||!wheelPool.length)return;spinning=true;
    b.onclick=()=>{const on=b.classList.contains('active');[...zb.querySelectorAll('.zpill')].forEach(x=>x.classList.remove('active'));
      if(on){curWZone="全部";}else{curWZone=key;b.classList.add('active');}drawWheel();};zb.appendChild(b);});}
 function setMode(m){mode=m;q.value='';window.scrollTo({top:0});
-  // 第二層：圖卡/影片/長片子切換
+  const sw=document.getElementById('searchwrap');if(sw)sw.classList.remove('open');
+  // 第二層：全部形式/圖卡/影片/長片子切換
+  document.getElementById('ms-all').classList.toggle('active',m==='all');
   document.getElementById('ms-card').classList.toggle('active',m==='card');
   document.getElementById('ms-vid').classList.toggle('active',m==='vid');
   document.getElementById('ms-long').classList.toggle('active',m==='long');
   // 主層：三大功能＋瀏覽全部
   document.getElementById('ms-plate').classList.toggle('active',m==='plate');
   document.getElementById('ms-wheel').classList.toggle('active',m==='wheel');
-  document.getElementById('browsetoggle').classList.toggle('active',m==='card'||m==='vid'||m==='long');
+  document.getElementById('browsetoggle').classList.toggle('active',m==='all'||m==='card'||m==='vid'||m==='long');
   if(m==='wheel')drawWheel();
   if(m==='plate'&&!plateSel.grain)rollPlate();
   render();}
-function goSearch(){setMode('home');window.scrollTo({top:0});const el=document.getElementById('q');if(el)el.focus();}
+function goSearch(){setMode('home');const sw=document.getElementById('searchwrap');if(sw)sw.classList.add('open');window.scrollTo({top:0});setTimeout(()=>{const el=document.getElementById('q');if(el)el.focus();},90);}
 function ingTokens(r){const raw=Array.isArray(r.ing)?r.ing:String(r.ing||'').split('、');
   return raw.map(x=>x.trim().split(/[ （(]/)[0]).filter(x=>x&&x.length>=2);}
 function relatedHtml(cur,isVid){
