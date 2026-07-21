@@ -87,6 +87,7 @@
   .slot:hover .sname{background:#fff;transform:scale(1.04)}
   .slabel{font-size:10px;color:#8a5a3b;letter-spacing:1px;font-weight:700;background:rgba(255,255,255,.75);border-radius:6px;padding:1px 6px}
   .sname{font-size:13px;font-weight:800;line-height:1.25;color:var(--ink)}
+  .slot .sname:empty::before,.dairycup .sname:empty::before{content:"＋ 點我";color:var(--rose-d);opacity:.6;font-weight:700;font-size:11px}
   .sroll{position:absolute;right:0;bottom:-2px;border:none;background:transparent;cursor:pointer;font-size:12px;padding:2px;opacity:.75}
   .sroll:hover{opacity:1}
   .s-fruit{top:12%;left:15%;width:42%;height:15%}
@@ -341,22 +342,22 @@
 <div id="plateview" style="display:none">
   <div class="platewrap">
     <p class="platetitle">今天吃什麼？讓營養師幫你配 🍽️</p>
-    <p class="platesub">照著六角餐盤的六大類比例，一鍵配出一餐；點格子看食譜、點 🔄 單格換菜（湯品自動避開澱粉湯，不與主食重複）</p>
+    <p class="platesub">餐盤是空的，點盤子上的每一格自己配菜；點了不喜歡按 🔄 換一道、想一鍵配好整餐按下方 🎲（湯品自動避開澱粉湯，不與主食重複）</p>
     <div class="platearea">
       <div class="plate">
-        <div class="slot s-fruit"><span class="slabel">水果類</span><span class="sname" id="p-fruit"></span><button class="sroll" onclick="rollFixed('fruit')">🔄</button></div>
-        <div class="slot s-nut"><span class="slabel">堅果類</span><span class="sname" id="p-nut"></span><button class="sroll" onclick="rollFixed('nut')">🔄</button></div>
-        <div class="slot s-grain" onclick="openPlate('grain')"><span class="slabel">全穀雜糧類</span><span class="sname" id="p-grain"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('grain')">🔄</button></div>
-        <div class="slot s-soup" onclick="openPlate('soup')"><span class="slabel">彈性空間・湯</span><span class="sname" id="p-soup"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('soup')">🔄</button></div>
-        <div class="slot s-protein" onclick="openPlate('protein')"><span class="slabel">豆蛋魚肉類</span><span class="sname" id="p-protein"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('protein')">🔄</button></div>
-        <div class="slot s-veg1" onclick="openPlate('veg1')"><span class="slabel">蔬菜類</span><span class="sname" id="p-veg1"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('veg1')">🔄</button></div>
-        <div class="slot s-veg2" onclick="openPlate('veg2')"><span class="slabel">蔬菜類</span><span class="sname" id="p-veg2"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('veg2')">🔄</button></div>
+        <div class="slot s-fruit" onclick="tapFixed('fruit')"><span class="slabel">水果類</span><span class="sname" id="p-fruit"></span><button class="sroll" onclick="event.stopPropagation();rollFixed('fruit')">🔄</button></div>
+        <div class="slot s-nut" onclick="tapFixed('nut')"><span class="slabel">堅果類</span><span class="sname" id="p-nut"></span><button class="sroll" onclick="event.stopPropagation();rollFixed('nut')">🔄</button></div>
+        <div class="slot s-grain" onclick="tapSlot('grain')"><span class="slabel">全穀雜糧類</span><span class="sname" id="p-grain"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('grain')">🔄</button></div>
+        <div class="slot s-soup" onclick="tapSlot('soup')"><span class="slabel">彈性空間・湯</span><span class="sname" id="p-soup"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('soup')">🔄</button></div>
+        <div class="slot s-protein" onclick="tapSlot('protein')"><span class="slabel">豆蛋魚肉類</span><span class="sname" id="p-protein"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('protein')">🔄</button></div>
+        <div class="slot s-veg1" onclick="tapSlot('veg1')"><span class="slabel">蔬菜類</span><span class="sname" id="p-veg1"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('veg1')">🔄</button></div>
+        <div class="slot s-veg2" onclick="tapSlot('veg2')"><span class="slabel">蔬菜類</span><span class="sname" id="p-veg2"></span><button class="sroll" onclick="event.stopPropagation();rollSlot('veg2')">🔄</button></div>
       </div>
-      <div class="dairycup"><span class="slabel">乳品類</span><span class="sname" id="p-dairy"></span><button class="sroll" onclick="rollFixed('dairy')">🔄</button></div>
+      <div class="dairycup" onclick="tapFixed('dairy')"><span class="slabel">乳品類</span><span class="sname" id="p-dairy"></span><button class="sroll" onclick="event.stopPropagation();rollFixed('dairy')">🔄</button></div>
     </div>
     <div class="platemenu" id="platemenu"></div>
     <div class="platebtns" style="margin-top:10px">
-      <button class="msbtn" onclick="rollPlate(true)">🎲 重新配一餐</button>
+      <button class="msbtn" onclick="rollPlate(true)">🎲 幫我配整餐</button>
     </div>
     <div class="shoplist" id="shoplist"></div>
     <div class="platebtns">
@@ -613,6 +614,12 @@ function rollPlate(scroll){['grain','protein','veg1','veg2','soup'].forEach(roll
   if(scroll){const pa=document.querySelector('.platearea');if(pa)pa.scrollIntoView({behavior:'smooth',block:'start'});}
   try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:'配餐',title:'配餐',event:true});}catch(e){}}
 function openPlate(k){const p=plateSel[k];if(!p)return;(p.vid?openVModal:openModal)(p.i);}
+// 空盤客人自己點：點空格→配一道；點已配的格→看食譜
+const PLATE_KEYS=['grain','protein','veg1','veg2','soup','fruit','nut','dairy'];
+function tapSlot(k){if(plateSel[k])openPlate(k);else rollSlot(k);}
+function tapFixed(k){const el=document.getElementById('p-'+k);if(el&&!el.textContent.trim())rollFixed(k);}
+function anyFilled(){return PLATE_KEYS.some(k=>{const el=document.getElementById('p-'+k);return el&&el.textContent.trim();});}
+function initPlate(){plateSel={};PLATE_KEYS.forEach(k=>{const el=document.getElementById('p-'+k);if(el)el.textContent='';});renderMenu();}
 const SEASON_RE=/^(鹽巴|鹽|糖|醬油|醬油膏|油|米酒|酒|白醋|烏醋|醋|萬用醋|葡萄籽油|苦茶油|沙茶|胡椒|白胡椒|黑胡椒|香油|麻油|辣油|橄欖油|苦茶油|玄米油|芥花油|葵花油|酪梨油|冰糖|味醂|味噌|蠔油|素蠔油|高湯|水|太白粉|地瓜粉|麵粉|玉米粉|馬鈴薯粉|樹薯粉|吉利T|昆布粉|洋蔥粉|薑黃|咖哩粉|五香粉|八角|花椒|滷包|味素|芝麻醬|番茄醬|沙拉油|噴油|辣椒醬|豆瓣醬|鹽麴|赤藻糖醇|蜂蜜)/;
 function cleanItem(x){return x.replace(/[（(].*?[)）]/g,'').replace(/【.*?】/g,'').trim();}
 const CUT_RE=/(末|絲|丁|片|塊|泥|碎|段|花|條|球)$/;
@@ -644,8 +651,10 @@ function copyShop(btn){const NL=String.fromCharCode(10);const {main,seas,fixed}=
  function menuLines(){const g=k=>document.getElementById('p-'+k).textContent;
   return [['全穀雜糧',g('grain')],['豆蛋魚肉',g('protein')],['蔬菜',g('veg1')+'、'+g('veg2')],['湯品',g('soup')],
           ['水果',g('fruit')],['堅果',g('nut')],['乳品',g('dairy')]];}
-function renderMenu(){document.getElementById('platemenu').innerHTML=
-  menuLines().map(([k,v])=>`<div><b>${k}</b>${v}</div>`).join('');renderShop();}
+function renderMenu(){
+  if(!anyFilled()){document.getElementById('platemenu').innerHTML='<div style="text-align:center;color:var(--muted);padding:8px 4px;line-height:1.7">👆 點餐盤上的格子，一格一格配出你的餐<br>或按下方 🎲 幫我配整餐</div>';document.getElementById('shoplist').innerHTML='';return;}
+  document.getElementById('platemenu').innerHTML=
+    menuLines().filter(([k,v])=>v&&v.replace(/、/g,'').trim()).map(([k,v])=>`<div><b>${k}</b>${v}</div>`).join('');renderShop();}
 const MENU_EMOJI={'全穀雜糧':'🍚','豆蛋魚肉':'🍗','蔬菜':'🥬','湯品':'🍲','水果':'🍎','堅果':'🥜','乳品':'🥛'};
 function copyMenu(btn){const NL=String.fromCharCode(10);
   const body=menuLines().map(([k,v])=>(MENU_EMOJI[k]||'')+' '+k+'｜'+v).join(NL);
@@ -712,7 +721,7 @@ function setMode(m){mode=m;q.value='';window.scrollTo({top:0});
   document.getElementById('ms-wheel').classList.toggle('active',m==='wheel');
   document.getElementById('browsetoggle').classList.toggle('active',m==='all'||m==='card'||m==='vid'||m==='long');
   if(m==='wheel')drawWheel();
-  if(m==='plate'&&!plateSel.grain)rollPlate();
+  if(m==='plate')renderMenu();
   render();}
 function goSearch(){setMode('home');const sw=document.getElementById('searchwrap');if(sw)sw.classList.add('open');window.scrollTo({top:0});setTimeout(()=>{const el=document.getElementById('q');if(el)el.focus();},90);}
 function ingTokens(r){const raw=Array.isArray(r.ing)?r.ing:String(r.ing||'').split('、');
