@@ -657,7 +657,7 @@ function setMode(m){mode=m;q.value='';window.scrollTo({top:0});
   if(m==='wheel')drawWheel();
   if(m==='plate'&&!plateSel.grain)rollPlate();
   render();}
-function goSearch(){window.scrollTo({top:0,behavior:'smooth'});const el=document.getElementById('q');if(el)el.focus();}
+function goSearch(){setMode('home');window.scrollTo({top:0});const el=document.getElementById('q');if(el)el.focus();}
 function ingTokens(r){const raw=Array.isArray(r.ing)?r.ing:String(r.ing||'').split('、');
   return raw.map(x=>x.trim().split(/[ （(]/)[0]).filter(x=>x&&x.length>=2);}
 function relatedHtml(cur,isVid){
