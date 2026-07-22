@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>把「送你營養吃」放到手機桌面｜教學</title>
+<style>
+  :root{
+    --cream:#f8f2e8; --card:#fff; --ink:#50412f; --muted:#9c8b76;
+    --rose:#d98fa4; --rose-d:#c26f88; --tan:#d99a4e; --line:#ede3d3;
+    --hi:#fbeef1; --hi-line:#f2cdd8;
+    --ios:#c26f88; --ios-bg:#fbeef1; --and:#3f8f6b; --and-bg:#e7f2ea;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);
+    font-family:system-ui,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.6;font-size:17px}
+  .wrap{max-width:660px;margin:0 auto;padding:26px 18px 56px}
+
+  /* header */
+  header{text-align:center;padding:14px 0 6px}
+  .brand{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
+    padding:7px 16px 7px 12px;border-radius:30px;box-shadow:0 3px 12px rgba(120,80,60,.1)}
+  .brand .dot{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#f6dde1,#f9ecdd);
+    display:flex;align-items:center;justify-content:center;font-size:15px}
+  .brand b{font-size:16px;font-weight:800;letter-spacing:.5px}
+  h1{font-size:27px;font-weight:800;margin:18px 0 6px;text-wrap:balance;line-height:1.3}
+  .sub{color:var(--muted);font-size:15.5px;margin:0}
+
+  /* url card */
+  .url{margin:22px 0 6px;background:#fff;border:1px solid var(--line);border-radius:16px;
+    padding:16px 18px;text-align:center;box-shadow:0 2px 10px rgba(120,80,60,.06)}
+  .url .lbl{font-size:13px;color:var(--muted);letter-spacing:2px;margin-bottom:4px}
+  .url .addr{font-size:19px;font-weight:800;color:var(--rose-d);word-break:break-all}
+  .url .note{font-size:13.5px;color:var(--muted);margin-top:6px}
+
+  /* platform card */
+  .card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;
+    margin-top:22px;box-shadow:0 4px 16px rgba(120,80,60,.09)}
+  .head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+  .head .pico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .head h2{margin:0;font-size:20px;font-weight:800}
+  .head .tag{margin-left:auto;font-size:13px;font-weight:700;padding:5px 12px;border-radius:14px}
+  .ios .pico{background:var(--ios-bg);color:var(--ios)} .ios .tag{background:var(--ios-bg);color:var(--ios)}
+  .and .pico{background:var(--and-bg);color:var(--and)} .and .tag{background:var(--and-bg);color:var(--and)}
+
+  .body{display:flex;gap:20px;padding:20px 20px 22px;align-items:flex-start}
+  @media(max-width:560px){.body{flex-direction:column;align-items:stretch}}
+
+  ol.steps{list-style:none;counter-reset:s;margin:0;padding:0;flex:1 1 auto;min-width:0}
+  ol.steps li{counter-increment:s;position:relative;padding:0 0 16px 44px;min-height:34px}
+  ol.steps li:last-child{padding-bottom:0}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:30px;height:30px;
+    border-radius:50%;background:var(--rose);color:#fff;font-weight:800;font-size:15px;
+    display:flex;align-items:center;justify-content:center}
+  .ios ol.steps li::before{background:var(--ios)} .and ol.steps li::before{background:var(--and)}
+  ol.steps li:not(:last-child)::after{content:"";position:absolute;left:14px;top:32px;bottom:6px;width:2px;background:var(--line)}
+  ol.steps li b{font-weight:800}
+  .chip{display:inline-flex;align-items:center;gap:5px;background:var(--hi);border:1px solid var(--hi-line);
+    color:var(--rose-d);font-weight:800;padding:2px 9px;border-radius:9px;font-size:15.5px;white-space:nowrap}
+  .and .chip{background:var(--and-bg);border-color:#c5e2d1;color:var(--and)}
+  .done{color:var(--and);font-weight:800}
+
+  /* phone mock */
+  .phone{flex:0 0 190px;width:190px;align-self:center}
+  @media(max-width:560px){.phone{margin:4px auto 0}}
+  .scr{border:7px solid #2c2621;border-radius:26px;background:#fff;overflow:hidden;box-shadow:0 8px 22px rgba(60,45,35,.22)}
+  .tbar{display:flex;align-items:center;gap:6px;padding:8px 10px;font-size:10px;color:var(--muted);border-bottom:1px solid var(--line)}
+  .tbar .u{flex:1;background:#f0ede3;border-radius:8px;padding:3px 7px;color:#8a7862;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .fill{background:linear-gradient(180deg,#f6dde1,#f9ecdd);height:70px;display:flex;align-items:center;justify-content:center;text-align:center}
+  .fill b{font-size:14px;font-weight:800;color:#a85572}
+  .mrow{display:flex;align-items:center;gap:9px;padding:10px 11px;font-size:12.5px;border-top:1px solid var(--line)}
+  .mrow.on{background:var(--hi)}
+  .and .mrow.on{background:var(--and-bg)}
+  .mrow .mi{width:22px;height:22px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+  .mrow.on .mi,.mrow.on span{color:var(--ios);font-weight:800}
+  .and .mrow.on .mi,.and .mrow.on span{color:var(--and)}
+  /* pulsing ring to point at the button */
+  .ring{position:relative}
+  .ring::after{content:"";position:absolute;inset:-4px;border:2.5px solid var(--ios);border-radius:8px;
+    animation:pulse 1.6s ease-in-out infinite}
+  .and .ring::after{border-color:var(--and)}
+  @keyframes pulse{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+  @media(prefers-reduced-motion:reduce){.ring::after{animation:none;opacity:.9}}
+  .botbar{display:flex;justify-content:space-around;align-items:center;padding:9px 8px;border-top:1px solid var(--line);color:var(--muted)}
+  .caption{text-align:center;font-size:12.5px;color:var(--muted);margin-top:8px}
+
+  .tip{margin-top:26px;background:#eef6ee;border:1px solid #d2e7d2;border-radius:14px;padding:14px 18px;
+    font-size:15px;color:#3f7a4d;line-height:1.7}
+  .tip b{color:#2f6b3d}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px;line-height:1.7}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="brand"><span class="dot">🍽️</span><b>送你營養吃</b></span>
+    <h1>把「送你營養吃」<br>放到手機桌面</h1>
+    <p class="sub">加到主畫面後，像 App 一樣一點就打開，找食譜超方便 🥰</p>
+  </header>
+
+  <div class="url">
+    <div class="lbl">先打開這個網址</div>
+    <div class="addr">nutrisunny.github.io/recipes</div>
+    <div class="note">或直接點你收到的連結、掃 QR 碼都可以</div>
+  </div>
+
+  <!-- iPhone -->
+  <section class="card ios">
+    <div class="head">
+      <span class="pico" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 6 12 1.6 7.6 6 9 7.4l2-2v9h2v-9l2 2zM5 10v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-3v2h3v10H7V10h3V8H7a2 2 0 0 0-2 2z"/></svg>
+      </span>
+      <h2>iPhone（用 Safari）</h2>
+      <span class="tag"> Apple</span>
+    </div>
+    <div class="body">
+      <ol class="steps">
+        <li>用 <b>Safari</b> 打開上面的網址</li>
+        <li>點畫面 <b>最下面中間</b> 的
+          <span class="chip">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 6 12 1.6 7.6 6 9 7.4l2-2v9h2v-9l2 2zM5 10v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-3v2h3v10H7V10h3V8H7a2 2 0 0 0-2 2z"/></svg>
+            分享
+          </span>
+          鈕
+        </li>
+        <li>選單往下滑，點 <span class="chip">加入主畫面</span></li>
+        <li>右上角點 <span class="chip">加入</span></li>
+        <li><span class="done">完成！</span>桌面就出現「送你營養吃」圖示 🎉</li>
+      </ol>
+      <div class="phone">
+        <div class="scr">
+          <div class="tbar"><span class="u">nutrisunny.github.io</span></div>
+          <div class="fill"><b>送你營養吃</b></div>
+          <div class="mrow on"><span class="mi ring"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 6 12 1.6 7.6 6 9 7.4l2-2v9h2v-9l2 2zM5 10v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-3v2h3v10H7V10h3V8H7a2 2 0 0 0-2 2z"/></svg></span><span>加入主畫面</span></div>
+          <div class="botbar" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            <span class="ring"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--ios)"><path d="M16.4 6 12 1.6 7.6 6 9 7.4l2-2v9h2v-9l2 2zM5 10v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-3v2h3v10H7V10h3V8H7a2 2 0 0 0-2 2z"/></svg></span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </div>
+        </div>
+        <div class="caption">點下方中間的「分享」</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Android -->
+  <section class="card and">
+    <div class="head">
+      <span class="pico" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 8v12a1 1 0 0 0 1 1h5v-6h4v6h5a1 1 0 0 0 1-1V8z"/></svg>
+      </span>
+      <h2>安卓（用 Chrome）</h2>
+      <span class="tag">Android</span>
+    </div>
+    <div class="body">
+      <ol class="steps">
+        <li>用 <b>Chrome</b> 打開上面的網址</li>
+        <li>點 <b>右上角</b> 的
+          <span class="chip">
+            <svg width="6" height="15" viewBox="0 0 6 24" fill="currentColor"><circle cx="3" cy="4" r="2.4"/><circle cx="3" cy="12" r="2.4"/><circle cx="3" cy="20" r="2.4"/></svg>
+            三個點
+          </span>
+        </li>
+        <li>點 <span class="chip">加到主畫面</span>（或「安裝應用程式」）</li>
+        <li>點 <span class="chip">新增</span>（或「安裝」）</li>
+        <li><span class="done">完成！</span>桌面就出現「送你營養吃」圖示 🎉</li>
+      </ol>
+      <div class="phone">
+        <div class="scr">
+          <div class="tbar"><span class="u">nutrisunny.github.io</span>
+            <span class="ring" style="display:flex"><svg width="6" height="16" viewBox="0 0 6 24" fill="var(--and)"><circle cx="3" cy="4" r="2.4"/><circle cx="3" cy="12" r="2.4"/><circle cx="3" cy="20" r="2.4"/></svg></span>
+          </div>
+          <div class="fill"><b>送你營養吃</b></div>
+          <div class="mrow"><span class="mi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span><span>新分頁</span></div>
+          <div class="mrow on"><span class="mi"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 8v12a1 1 0 0 0 1 1h5v-6h4v6h5a1 1 0 0 0 1-1V8z"/></svg></span><span>加到主畫面</span></div>
+        </div>
+        <div class="caption">點右上角「⋮」再選「加到主畫面」</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tip">
+    💡 <b>小提醒</b>：iPhone 一定要用 <b>Safari</b> 打開才有「加入主畫面」；安卓用 <b>Chrome</b> 最順。加好之後，桌面圖示就是我們的 Logo，一點就直接看食譜囉！
+  </div>
+
+  <footer>
+    送你營養吃 ｜ 家常食譜 · 一菜一卡，食材清清楚楚<br>
+    食譜提供：愛營養 Sunny 營養師
+  </footer>
+</div>
+
+</body>
+</html>
