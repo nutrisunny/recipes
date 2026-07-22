@@ -64,7 +64,28 @@
   .helpbtn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--rose);background:#fff;color:var(--rose-d);
        font-size:14.5px;font-weight:700;padding:10px 20px;border-radius:24px;cursor:pointer;font-family:inherit;min-height:44px;transition:.15s}
   .helpbtn:hover{background:var(--rose);color:#fff}
-  .modal.helpmode h4{color:var(--rose-d);filter:none}
+  .modal.helpmode h4{color:var(--rose-d);filter:none;margin:20px 0 10px}
+  .helpmode .hprow{display:flex;gap:16px;align-items:flex-start}
+  @media(max-width:560px){.helpmode .hprow{flex-direction:column;align-items:stretch}}
+  .helpmode .hprow .steps{flex:1 1 auto;min-width:0;margin-top:0}
+  .hphone{flex:0 0 166px;width:166px;align-self:center}
+  @media(max-width:560px){.hphone{margin:4px auto 0}}
+  .hscr{border:6px solid #2c2621;border-radius:22px;background:#fff;overflow:hidden;box-shadow:0 6px 16px rgba(60,45,35,.2)}
+  .htbar{display:flex;align-items:center;gap:6px;padding:7px 9px;font-size:9.5px;border-bottom:1px solid var(--line)}
+  .htbar .u{flex:1;background:#f0ede3;border-radius:7px;padding:3px 6px;color:#8a7862;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hfill{background:linear-gradient(180deg,#f6dde1,#f9ecdd);height:58px;display:flex;align-items:center;justify-content:center}
+  .hfill b{font-size:13px;font-weight:800;color:#a85572}
+  .hmrow{display:flex;align-items:center;gap:8px;padding:9px 10px;font-size:12px;border-top:1px solid var(--line);color:var(--ink)}
+  .hmrow.on{background:#fbeef1;color:var(--rose-d);font-weight:800}
+  .hphone.and .hmrow.on{background:#e7f2ea;color:#3f8f6b}
+  .hmrow .mi{width:20px;flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+  .hbot{display:flex;justify-content:space-around;align-items:center;padding:8px 6px;border-top:1px solid var(--line);color:var(--muted)}
+  .hring{position:relative}
+  .hring::after{content:"";position:absolute;inset:-4px;border:2.5px solid var(--rose-d);border-radius:8px;animation:helppulse 1.6s ease-in-out infinite}
+  .hphone.and .hring::after{border-color:#3f8f6b}
+  .hcap{text-align:center;font-size:11.5px;color:var(--muted);margin-top:7px}
+  @keyframes helppulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.07)}}
+  @media(prefers-reduced-motion:reduce){.hring::after{animation:none;opacity:.9}}
   picture{display:contents}
   .zbrow{margin:1px 0 2px;display:flex;flex-wrap:wrap;gap:4px}
   .zb{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:11px;line-height:1.7;letter-spacing:0}
@@ -802,19 +823,35 @@ function seekTo(id,s){const f=document.querySelector('.modal iframe');if(f){f.sr
 function closeModal(fromNav){document.getElementById('overlay').classList.remove('show');document.querySelectorAll('.modal iframe').forEach(f=>f.src='');
   document.title='送你營養吃｜家常食譜';
   if(fromNav!==true&&locUid())history.back();}
+const SHARE_SVG='<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 6 12 1.6 7.6 6 9 7.4l2-2v9h2v-9l2 2zM5 10v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-3v2h3v10H7V10h3V8H7a2 2 0 0 0-2 2z"/></svg>';
+const DOTS_SVG='<svg width="5" height="14" viewBox="0 0 6 24" fill="currentColor"><circle cx="3" cy="4" r="2.4"/><circle cx="3" cy="12" r="2.4"/><circle cx="3" cy="20" r="2.4"/></svg>';
+const HOME_SVG='<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 8v12a1 1 0 0 0 1 1h5v-6h4v6h5a1 1 0 0 0 1-1V8z"/></svg>';
+const CHEV='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>';
+const HAMB='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
 function openHelp(){const m=document.getElementById('modal');m.className='modal longmode helpmode';
+  const iosPhone='<div class="hphone"><div class="hscr">'
+    +'<div class="htbar"><span class="u">nutrisunny.github.io</span></div>'
+    +'<div class="hfill"><b>送你營養吃</b></div>'
+    +'<div class="hmrow on"><span class="mi hring">'+SHARE_SVG+'</span><span>加入主畫面</span></div>'
+    +'<div class="hbot">'+CHEV+'<span class="hring" style="display:flex;color:var(--rose-d)">'+SHARE_SVG+'</span>'+HAMB+'</div>'
+    +'</div><div class="hcap">點下方中間的「分享」</div></div>';
+  const andPhone='<div class="hphone and"><div class="hscr">'
+    +'<div class="htbar"><span class="u">nutrisunny.github.io</span><span class="hring" style="display:flex;color:#3f8f6b">'+DOTS_SVG+'</span></div>'
+    +'<div class="hfill"><b>送你營養吃</b></div>'
+    +'<div class="hmrow on"><span class="mi">'+HOME_SVG+'</span><span>加到主畫面</span></div>'
+    +'</div><div class="hcap">點右上角「⋮」再選「加到主畫面」</div></div>';
   m.innerHTML='<div class="mbody"><div class="mcat">📱 小教學</div><h2>把食譜放到手機桌面</h2>'
-   +'<p style="color:var(--muted);margin:2px 0 12px;line-height:1.7">加到主畫面後，像 App 一樣一點就打開，找食譜超方便 🥰</p>'
-   +'<h4>🍎 iPhone（用 Safari）</h4><ol class="steps">'
+   +'<p style="color:var(--muted);margin:2px 0 4px;line-height:1.7">加到主畫面後，像 App 一樣一點就打開，找食譜超方便 🥰</p>'
+   +'<h4>🍎 iPhone（用 Safari）</h4><div class="hprow"><ol class="steps">'
    +'<li>用 <b>Safari</b> 打開本網站</li>'
-   +'<li>點畫面 <b>最下面中間</b> 的「分享」鈕（方框加向上箭頭 ⬆️）</li>'
+   +'<li>點畫面 <b>最下面中間</b> 的「分享」鈕</li>'
    +'<li>選單往下滑，點「<b>加入主畫面</b>」</li>'
-   +'<li>右上角點「<b>加入</b>」</li></ol>'
-   +'<h4>🤖 安卓（用 Chrome）</h4><ol class="steps">'
+   +'<li>右上角點「<b>加入</b>」</li></ol>'+iosPhone+'</div>'
+   +'<h4>🤖 安卓（用 Chrome）</h4><div class="hprow"><ol class="steps">'
    +'<li>用 <b>Chrome</b> 打開本網站</li>'
    +'<li>點 <b>右上角</b> 的「⋮」（三個點）</li>'
    +'<li>點「<b>加到主畫面</b>」（或「安裝應用程式」）</li>'
-   +'<li>點「<b>新增</b>」（或「安裝」）</li></ol>'
+   +'<li>點「<b>新增</b>」（或「安裝」）</li></ol>'+andPhone+'</div>'
    +'<div class="tip">💡 iPhone 要用 <b>Safari</b>、安卓用 <b>Chrome</b> 才有這個功能；完成後桌面就會出現「送你營養吃」圖示 🎉</div></div>';
   document.getElementById('overlay').classList.add('show');document.title='加到手機桌面教學｜送你營養吃';
   try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:'加到桌面教學',title:'加到桌面教學',event:true});}catch(e){}}
