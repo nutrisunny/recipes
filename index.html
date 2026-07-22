@@ -61,6 +61,10 @@
   .homehint{text-align:center;padding:20px 20px 60px;color:var(--muted)}
   .homehint p{margin:7px 0;font-size:15px;line-height:1.6}
   .homehint .hh-sub{font-size:13.5px;opacity:.85}
+  .helpbtn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--rose);background:#fff;color:var(--rose-d);
+       font-size:14.5px;font-weight:700;padding:10px 20px;border-radius:24px;cursor:pointer;font-family:inherit;min-height:44px;transition:.15s}
+  .helpbtn:hover{background:var(--rose);color:#fff}
+  .modal.helpmode h4{color:var(--rose-d);filter:none}
   picture{display:contents}
   .zbrow{margin:1px 0 2px;display:flex;flex-wrap:wrap;gap:4px}
   .zb{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:11px;line-height:1.7;letter-spacing:0}
@@ -316,6 +320,7 @@
 <div id="homefeatured"></div>
 <div id="homehint" class="homehint">
   <p class="hh-sub">共 <span id="hh-count"></span> 道家常食譜 ｜ 愛營養 Sunny 營養師親自設計</p>
+  <button class="helpbtn" onclick="openHelp()">📱 把食譜加到手機桌面</button>
 </div>
 <div id="allview" style="display:none">
   <div class="bar" id="abar"></div>
@@ -400,6 +405,7 @@
   <img class="flogo" src="logo.png" alt="送你營養吃">
   <h3>送你營養吃</h3>
   <div class="socials"><a class="s-btn s-fb big" href="https://i333.tw/%E9%80%81%E4%BD%A0%E7%87%9F%E9%A4%8A%E5%90%83FB" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.8-4.69 4.54-4.69 1.31 0 2.68.24 2.68.24v2.95h-1.51c-1.49 0-1.96.93-1.96 1.88v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg><span>Facebook</span></a><a class="s-btn s-yt big" href="https://www.youtube.com/playlist?list=PLG9cQW3wD2MI" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg><span>YouTube</span></a><a class="s-btn s-line big" href="https://i333.tw/%E9%80%81%E4%BD%A0%E7%87%9F%E9%A4%8A%E5%90%83%E5%AE%98%E6%96%B9LINE" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 10.3C24 4.93 18.62.56 12 .56S0 4.93 0 10.3c0 4.81 4.27 8.84 10.03 9.61.39.08.92.26 1.06.59.12.3.08.78.04 1.08l-.17 1.03c-.05.3-.24 1.18 1.04.64s6.91-4.06 9.42-6.96C23.16 14.16 24 12.22 24 10.3zM7.75 13.3H5.36c-.35 0-.63-.28-.63-.63V8.35c0-.35.28-.63.63-.63s.63.28.63.63v3.69h1.76c.35 0 .63.28.63.63s-.28.63-.63.63zm2.46-.63c0 .35-.28.63-.63.63s-.63-.28-.63-.63V8.35c0-.35.28-.63.63-.63s.63.28.63.63v4.32zm5.19 0c0 .27-.17.51-.43.6a.65.65 0 0 1-.2.03c-.2 0-.38-.09-.5-.25l-2.45-3.33v2.95c0 .35-.28.63-.63.63s-.63-.28-.63-.63V8.35c0-.27.17-.51.43-.6.06-.02.13-.03.2-.03.2 0 .38.1.5.26l2.45 3.33V8.35c0-.35.28-.63.63-.63s.63.28.63.63v4.32zm3.9-2.79c.35 0 .63.28.63.63s-.28.63-.63.63h-1.76v1.13h1.76c.35 0 .63.28.63.63s-.28.63-.63.63h-2.39c-.35 0-.63-.28-.63-.63V8.35c0-.35.28-.63.63-.63h2.39c.35 0 .63.28.63.63s-.28.63-.63.63h-1.76v1.13h1.76z"/></svg><span>LINE</span></a></div>
+  <button class="helpbtn" onclick="openHelp()" style="margin:14px 0 4px">📱 把食譜加到手機桌面</button>
   <div class="credit">食譜提供：愛營養 Sunny 營養師 ｜ 圖卡食譜 95 道 ＋ 影片食譜 342 道</div>
   <div class="credit">© 2026 愛營養有限公司（送你營養吃）· 版權所有，內容禁止未經授權轉載</div>
 </footer>
@@ -796,6 +802,22 @@ function seekTo(id,s){const f=document.querySelector('.modal iframe');if(f){f.sr
 function closeModal(fromNav){document.getElementById('overlay').classList.remove('show');document.querySelectorAll('.modal iframe').forEach(f=>f.src='');
   document.title='送你營養吃｜家常食譜';
   if(fromNav!==true&&locUid())history.back();}
+function openHelp(){const m=document.getElementById('modal');m.className='modal longmode helpmode';
+  m.innerHTML='<div class="mbody"><div class="mcat">📱 小教學</div><h2>把食譜放到手機桌面</h2>'
+   +'<p style="color:var(--muted);margin:2px 0 12px;line-height:1.7">加到主畫面後，像 App 一樣一點就打開，找食譜超方便 🥰</p>'
+   +'<h4>🍎 iPhone（用 Safari）</h4><ol class="steps">'
+   +'<li>用 <b>Safari</b> 打開本網站</li>'
+   +'<li>點畫面 <b>最下面中間</b> 的「分享」鈕（方框加向上箭頭 ⬆️）</li>'
+   +'<li>選單往下滑，點「<b>加入主畫面</b>」</li>'
+   +'<li>右上角點「<b>加入</b>」</li></ol>'
+   +'<h4>🤖 安卓（用 Chrome）</h4><ol class="steps">'
+   +'<li>用 <b>Chrome</b> 打開本網站</li>'
+   +'<li>點 <b>右上角</b> 的「⋮」（三個點）</li>'
+   +'<li>點「<b>加到主畫面</b>」（或「安裝應用程式」）</li>'
+   +'<li>點「<b>新增</b>」（或「安裝」）</li></ol>'
+   +'<div class="tip">💡 iPhone 要用 <b>Safari</b>、安卓用 <b>Chrome</b> 才有這個功能；完成後桌面就會出現「送你營養吃」圖示 🎉</div></div>';
+  document.getElementById('overlay').classList.add('show');document.title='加到手機桌面教學｜送你營養吃';
+  try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:'加到桌面教學',title:'加到桌面教學',event:true});}catch(e){}}
 document.getElementById('overlay').onclick=e=>{if(e.target.id==='overlay')closeModal()};
 window.addEventListener('popstate',()=>{const uid=locUid();if(uid){openByUid(uid,true);}else{closeModal(true);}});
 {const T=DB.recipes.length+(DB.vrecipes||[]).length;
