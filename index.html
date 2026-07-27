@@ -574,7 +574,7 @@ function renderCards(){const list=DB.recipes.filter(match);countEl.textContent=`
 // 首頁排行榜：熱門(依觀看數)＋最新(最近上架)，同一支影片只取一道代表
 let homeDone=false, rankData=null;
 function buildRank(){if(rankData)return;
-  const vids=(DB.vrecipes||[]).filter(r=>r.img&&r.yt);
+  const vids=(DB.vrecipes||[]).filter(r=>r.img&&r.yt&&(r.views||0)>=10000);
   const seenH=new Set(),hot=[];
   [...vids].sort((a,b)=>(b.views||0)-(a.views||0)).forEach(r=>{if(!seenH.has(r.yt)){seenH.add(r.yt);hot.push(r);}});
   const seenL=new Set(),latest=[];
