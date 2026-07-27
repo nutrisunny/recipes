@@ -52,6 +52,24 @@
   .browsetoggle.active{color:#fff;background:var(--rose)}
   .feat-title{max-width:1100px;margin:22px auto 0;padding:0 16px;font-size:21px;font-weight:800;color:var(--rose-d)}
   .feat-sub{max-width:1100px;margin:2px auto 4px;padding:0 16px;font-size:13.5px;color:var(--muted)}
+  .rankcard{max-width:540px;margin:22px auto 0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 4px 16px rgba(120,80,60,.09);text-align:left}
+  .ranktop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px 12px;flex-wrap:wrap}
+  .rank-title{margin:0;font-size:19px;font-weight:800;color:var(--rose-d)}
+  .ranktabs{display:flex;gap:6px}
+  .rtab{font-size:14px;font-weight:700;padding:7px 16px;border-radius:16px;border:none;cursor:pointer;font-family:inherit;background:#f0ede3;color:var(--muted);min-height:40px}
+  .rtab.on{background:var(--tan);color:#fff}
+  .rankhd{display:flex;align-items:center;padding:9px 18px;background:#faf6ee;color:var(--muted);font-size:12.5px;letter-spacing:1px}
+  .rankhd .l{flex:1;padding-left:58px}
+  .rkrow{display:flex;align-items:center;gap:12px;padding:11px 18px;border-top:1px solid var(--line);cursor:pointer;transition:background .15s}
+  .rkrow:hover{background:#fbeef1}
+  .rkbadge{width:32px;flex:0 0 32px;display:flex;justify-content:center}
+  .rib{width:26px;height:34px;color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%);border-radius:4px 4px 0 0}
+  .rib.r1{background:var(--rose-d)}.rib.r2{background:var(--tan)}.rib.r3{background:#5fa27e}
+  .rnum{width:28px;height:28px;border-radius:50%;background:#eceae2;color:var(--muted);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+  .rkrow img{width:46px;height:46px;border-radius:10px;object-fit:cover;flex:0 0 46px;background:#f0ede3;display:block}
+  .rknm{flex:1;min-width:0;font-size:16px;font-weight:700;line-height:1.35}
+  .rkht{font-size:15px;font-weight:800;color:var(--rose-d);font-variant-numeric:tabular-nums;white-space:nowrap}
+  @media(max-width:640px){.rankcard{margin-top:16px}.rknm{font-size:15px}.rkht{font-size:14px}.rank-title{font-size:17px}}
   .grid.feat-grid{max-width:1100px;grid-template-columns:repeat(4,1fr);gap:20px}
   .feat-grid .card h3{font-size:19px;margin:0 0 5px}
   .feat-grid .card .ing{font-size:13.5px;-webkit-line-clamp:2}
@@ -551,21 +569,26 @@ function render(){
   if(mode==='vid')renderV();else if(mode==='long')renderL();else if(mode==='all')renderAll();else if(mode==='card')renderCards();}
 function renderCards(){const list=DB.recipes.filter(match);countEl.textContent=`共 ${list.length} 道`;
   grid.innerHTML=list.length?list.slice(0,pageN).map(cardCard).join('')+moreBtn(list.length):`<p style="color:#999">找不到符合的食譜</p>`;}
-let homeDone=false;
-function renderHome(){if(homeDone)return;homeDone=true;
-  const pool=[...(DB.vrecipes||[]).map(r=>({r,vid:true})),...DB.recipes.map(r=>({r,vid:false}))].filter(p=>p.r.img);
-  pool.sort((a,b)=>(b.r.views||0)-(a.r.views||0));
-  // 依觀看數取前8，但同一個詞(如「酪梨」)最多2道，避免同食材洗版
-  const grams=s=>{const a=[];for(let i=0;i<s.length-1;i++)a.push(s.slice(i,i+2));return a;};
-  const top=[],used={};
-  for(const p of pool){if(top.length>=8)break;
-    const gs=grams(p.r.name);
-    if(gs.some(g=>(used[g]||0)>=2))continue;
-    top.push(p);gs.forEach(g=>used[g]=(used[g]||0)+1);}
-  for(const p of pool){if(top.length>=8)break;if(!top.includes(p))top.push(p);}
+// 首頁排行榜：熱門(依觀看數)＋最新(最近上架)，同一支影片只取一道代表
+let homeDone=false, rankData=null;
+function buildRank(){if(rankData)return;
+  const vids=(DB.vrecipes||[]).filter(r=>r.img&&r.yt);
+  const seenH=new Set(),hot=[];
+  [...vids].sort((a,b)=>(b.views||0)-(a.views||0)).forEach(r=>{if(!seenH.has(r.yt)){seenH.add(r.yt);hot.push(r);}});
+  const seenL=new Set(),latest=[];
+  [...vids].reverse().forEach(r=>{if(!seenL.has(r.yt)){seenL.add(r.yt);latest.push(r);}});
+  rankData={hot:hot.slice(0,10),latest:latest.slice(0,10)};}
+function rankRows(tab){return rankData[tab].map((r,i)=>{const n=i+1;
+    const badge=n<=3?`<span class="rib r${n}">${n}</span>`:`<span class="rnum">${n}</span>`;
+    return `<div class="rkrow" onclick="openVModal(${DB.vrecipes.indexOf(r)})"><div class="rkbadge">${badge}</div>${pic(r)}<div class="rknm">${r.name}</div><div class="rkht">${r.views?fmtViews(r.views)+' 次':'—'}</div></div>`;
+  }).join('');}
+function renderRank(tab){buildRank();
   document.getElementById('homefeatured').innerHTML=
-    '<h2 class="feat-title">🔥 熱門影片食譜</h2><p class="feat-sub">大家最近最常看的 8 道料理</p><div class="grid feat-grid">'+
-    top.map(p=>p.vid?vidCard(p.r):cardCard(p.r)).join('')+'</div>';}
+    `<div class="rankcard"><div class="ranktop"><h2 class="rank-title">🔥 熱門食譜排行榜</h2>`
+    +`<div class="ranktabs"><button class="rtab${tab==='hot'?' on':''}" onclick="renderRank('hot')">熱門</button>`
+    +`<button class="rtab${tab==='latest'?' on':''}" onclick="renderRank('latest')">最新</button></div></div>`
+    +`<div class="rankhd"><span class="l">食譜</span><span>觀看數</span></div>${rankRows(tab)}</div>`;}
+function renderHome(){if(homeDone)return;homeDone=true;renderRank('hot');}
 // 全部形式：一次顯示全部食譜（圖卡＋影片＋長片），依分類分組
 let curACat="全部";
 {const ab=document.getElementById('abar');
