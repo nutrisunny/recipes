@@ -357,6 +357,7 @@
   <div class="morefilter-wrap"><button class="morefilter-btn" id="morefilterBtn" onclick="toggleMoreFilters()">＋ 更多篩選</button></div>
 </div>
 <div id="homefeatured"></div>
+<div id="homecards"></div>
 <div id="homehint" class="homehint">
   <p class="hh-sub">共 <span id="hh-count"></span> 道家常食譜 ｜ 愛營養 Sunny 營養師親自設計</p>
   <button class="helpbtn" onclick="openHelp()">📱 把食譜加到手機桌面</button>
@@ -553,12 +554,13 @@ function render(){
   const browsing=(mode==='all'||mode==='card'||mode==='vid'||mode==='long');
   document.getElementById('ms-search').classList.toggle('active',!!kw);
   if(kw){
-    ['allview','cardview','vidview','longview','plateview','wheelview','browsenav','homehint','homefeatured'].forEach(id=>set(id,false));
+    ['allview','cardview','vidview','longview','plateview','wheelview','browsenav','homehint','homefeatured','homecards'].forEach(id=>set(id,false));
     set('searchview',true);renderSearch(kw);return;}
   set('searchview',false);
   document.getElementById('browsenav').style.display=browsing?'block':'none';
   set('homehint',mode==='home');
   set('homefeatured',mode==='home');
+  set('homecards',mode==='home');
   if(mode==='home')renderHome();
   set('allview',mode==='all');
   set('cardview',mode==='card');
@@ -588,7 +590,18 @@ function renderRank(tab){buildRank();
     +`<div class="ranktabs"><button class="rtab${tab==='hot'?' on':''}" onclick="renderRank('hot')">熱門</button>`
     +`<button class="rtab${tab==='latest'?' on':''}" onclick="renderRank('latest')">最新</button></div></div>`
     +`<div class="rankhd"><span class="l">食譜</span><span>觀看數</span></div>${rankRows(tab)}</div>`;}
-function renderHome(){if(homeDone)return;homeDone=true;renderRank('hot');}
+function renderFeatCards(){
+  const pool=[...(DB.vrecipes||[]).map(r=>({r,vid:true})),...DB.recipes.map(r=>({r,vid:false}))].filter(p=>p.r.img);
+  pool.sort((a,b)=>(b.r.views||0)-(a.r.views||0));
+  const grams=s=>{const a=[];for(let i=0;i<s.length-1;i++)a.push(s.slice(i,i+2));return a;};
+  const top=[],used={};
+  for(const p of pool){if(top.length>=8)break;const gs=grams(p.r.name);
+    if(gs.some(g=>(used[g]||0)>=2))continue;top.push(p);gs.forEach(g=>used[g]=(used[g]||0)+1);}
+  for(const p of pool){if(top.length>=8)break;if(!top.includes(p))top.push(p);}
+  document.getElementById('homecards').innerHTML=
+    '<h2 class="feat-title">🔥 熱門影片食譜</h2><p class="feat-sub">大家最近最常看的 8 道料理</p><div class="grid feat-grid">'
+    +top.map(p=>p.vid?vidCard(p.r):cardCard(p.r)).join('')+'</div>';}
+function renderHome(){if(homeDone)return;homeDone=true;renderRank('hot');renderFeatCards();}
 // 全部形式：一次顯示全部食譜（圖卡＋影片＋長片），依分類分組
 let curACat="全部";
 {const ab=document.getElementById('abar');
