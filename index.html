@@ -631,21 +631,26 @@ function renderV(){const list=applySort((DB.vrecipes||[]).filter(r=>!r.wide).fil
 function renderSearch(kw){
   const cmatch=r=>curCat==="全部"||r.cat===curCat;
   const hits=synHits(kw);
-  const cm=DB.recipes.filter(zmatch).filter(fmatch).filter(cmatch).filter(r=>matchSearch(r,kw,hits));
-  const vm=(DB.vrecipes||[]).filter(zmatch).filter(fmatch).filter(cmatch).filter(r=>!r.wide&&matchSearch(r,kw,hits));
-  const lm=(DB.vrecipes||[]).filter(zmatch).filter(fmatch).filter(cmatch).filter(r=>r.wide&&matchSearch(r,kw,hits));
+  const nameHit=r=>(r.name||'').toLowerCase().includes(kw);
+  const byRel=(a,b)=>(nameHit(a)?0:1)-(nameHit(b)?0:1);  // 菜名命中排前面（sort 穩定→同組維持原順序）
+  const cm=DB.recipes.filter(zmatch).filter(fmatch).filter(cmatch).filter(r=>matchSearch(r,kw,hits)).sort(byRel);
+  const vm=(DB.vrecipes||[]).filter(zmatch).filter(fmatch).filter(cmatch).filter(r=>!r.wide&&matchSearch(r,kw,hits)).sort(byRel);
+  const lm=(DB.vrecipes||[]).filter(zmatch).filter(fmatch).filter(cmatch).filter(r=>r.wide&&matchSearch(r,kw,hits)).sort(byRel);
   let h='';
   const hintWords=[...hits.zs,...hits.ts];
   if(hintWords.length)h+=`<div class="synhint">🔎 也幫你找出「${hintWords.join('、')}」的料理</div>`;
-  // 分頁：三區共用 pageN 額度，依序分配
+  // 分頁：三區共用 pageN 額度，輪流分配（每區都先露一些，不讓圖卡吃光額度）
   const groups=[["圖卡食譜",cm,cardCard,"grid"],["影片食譜",vm,vidCard,"grid vgrid"],["長片教學",lm,vidCard,"grid vgrid"]];
   const total=cm.length+vm.length+lm.length;
-  let budget=pageN;
+  const take={}; groups.forEach(g=>take[g[0]]=0);
+  let budget=pageN, moved=true;
+  while(budget>0&&moved){ moved=false;
+    for(const [title,arr] of groups){
+      if(budget<=0)break;
+      if(take[title]<arr.length){take[title]++;budget--;moved=true;}}}
   for(const [title,arr,fn,cls] of groups){
-    if(!arr.length||budget<=0)continue;
-    const take=Math.min(arr.length,budget);
-    h+=`<div class="sgrouptitle">${title}（${arr.length}）</div><div class="${cls}">${arr.slice(0,take).map(fn).join('')}</div>`;
-    budget-=take;}
+    if(!take[title])continue;
+    h+=`<div class="sgrouptitle">${title}（${arr.length}）</div><div class="${cls}">${arr.slice(0,take[title]).map(fn).join('')}</div>`;}
   h+=moreBtn(total);
   document.getElementById('sresults').innerHTML=h||`<p style="color:#999;text-align:center;margin:30px">找不到符合的食譜</p>`;
   document.getElementById('scount').textContent=`搜尋「${q.value.trim()}」：圖卡 ${cm.length} ＋ 影片 ${vm.length} ＋ 長片 ${lm.length} 道`;}
