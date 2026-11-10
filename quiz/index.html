@@ -106,6 +106,13 @@ p{margin:0}
 .play{flex:none;width:56px;height:56px;border-radius:50%;background:#E0412E;display:grid;place-items:center}
 .play::after{content:"";border-left:18px solid #fff;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:5px}
 .also{font-size:17px;background:#FFF3C9;border-radius:10px;padding:6px 12px;align-self:flex-start}
+.recs{display:flex;flex-direction:column;gap:10px}
+.recs h3{margin:0;font-size:21px;font-family:var(--display);font-weight:900}
+.recgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.rec{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--ink);background:var(--paper);border-radius:14px;padding:6px 6px 10px;border:1px solid var(--line)}
+.rec img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:var(--line)}
+.rec span{font-size:16px;font-weight:700;line-height:1.35;text-align:center;padding-inline:2px}
+.more{font-size:17px;color:var(--teal);font-weight:700;text-align:center;text-decoration:underline}
 .foot{font-size:14px;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:14px}
 @media (max-width:380px){h1{font-size:31px}.hero img{height:220px}.res-head img{height:150px}.res-head h2{font-size:27px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -163,6 +170,12 @@ p{margin:0}
         <ol id="tips"></ol>
       </div>
 
+      <div class="recs">
+        <h3>安媽廚房，今晚就做這 3 道</h3>
+        <div class="recgrid" id="recgrid"></div>
+        <a class="more" href="https://nutrisunny.github.io/recipes/">看更多家常食譜 →</a>
+      </div>
+
       <div class="cta">
         <p>送你一張<b>《外食族餐盤小卡》</b><br>按下面的綠色按鈕，再按「傳送」就收到</p>
         <a class="btn btn-line" id="linego" href="https://i333.tw/官方Line" target="_blank" rel="noopener">用 LINE 領小卡</a>
@@ -200,6 +213,8 @@ const R={
  star:{name:'餐盤模範生',desc:'蔬果、蛋白質、全穀都有顧到，繼續保持！',kw:'模範生',alt:'Q版安媽開心跳起來',
   tips:['把你的吃法分享給家人朋友','外食時一樣先看有沒有青菜跟蛋白質','偶爾換換不同顏色的蔬果，吃得更豐富']}
 };
+const RECS={"veg": [["蒜炒雙色花椰菜", "VEG-18"], ["皮蛋地瓜葉", "VEG-13"], ["番茄蔬菜湯", "SOUP-01"]], "pro": [["蒸蛋", "EGG-11"], ["清蒸鱸魚", "SEA-08"], ["豆皮雞胸肉", "MEAT-14"]], "grain": [["烤地瓜", "GRAIN-03"], ["栗子飯", "VID-131"], ["番茄燕麥粥", "VID-217"]], "sugar": [["芭樂鳳梨優格沙拉", "VID-332"], ["減糖古早味剉冰", "VID-237"], ["毛豆豆漿", "VID-116"]], "star": [["早餐溫沙拉", "VID-105"], ["地中海鮭魚一鍋煮", "VID-225"], ["優格雞胸溫沙拉", "VID-238"]]};
+const RB='https://nutrisunny.github.io/recipes/';
 let i=0,ans=[];
 // GoatCounter 事件（跟食譜網站同一個帳號），沒載入就不做事
 function gc(path){try{window.goatcounter&&goatcounter.count&&goatcounter.count({path:'測驗/'+path,title:path,event:true})}catch(e){}}
@@ -252,6 +267,7 @@ function result(forced){
     const p=s[d.k]/d.max,c=p>=0.75?'good':p>=0.5?'ok':'low',l=p>=0.75?'很夠':p>=0.5?'還可以':'要加油';
     return `<div class="row"><span>${d.n}</span><div class="bar"><i class="${c}" style="width:${Math.max(p*100,6)}%"></i></div><span class="st ${c}">${l}</span></div>`;
   }).join('');
+  $('recgrid').innerHTML=RECS[t].map(([n,u])=>`<a class="rec" href="${RB}?r=${u}" data-r="${n}"><img src="${RB}${u}.jpg" alt=""><span>${n}</span></a>`).join('');
   $('tips').innerHTML=r.tips.map(x=>`<li><span>${x}</span></li>`).join('');
   if(!forced)gc('完成/'+r.kw);
   show('s-res');
@@ -260,6 +276,7 @@ async function copy(text,btn,done){
   try{await navigator.clipboard.writeText(text);const o=btn.textContent;btn.textContent=done;setTimeout(()=>btn.textContent=o,1600)}
   catch(e){btn.textContent='請長按上面文字複製'}
 }
+$('recgrid').addEventListener('click',e=>{const a=e.target.closest('.rec');if(a)gc('看食譜/'+a.dataset.r)});
 $('linego').addEventListener('click',()=>gc('領小卡/'+$('kw').textContent));
 $('start').onclick=()=>{gc('開始');i=0;ans=[];renderQ();show('s-q')};
 $('back').onclick=()=>{if(i>0){i--;renderQ()}};
