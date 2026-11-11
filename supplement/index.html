@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<!-- build 2026-11-10 18:02 -->
+<!-- build 2026-11-11 12:29 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="轉一顆扭蛋，3 題找到你的日常保養方向。">
@@ -33,7 +33,7 @@
 [hidden]{display:none!important}
 html,body{min-height:100%}
 body{background-color:var(--bg);background-image:radial-gradient(var(--dot) 2.5px,transparent 2.6px);background-size:22px 22px;color:var(--ink);font-family:var(--display);font-size:19px;line-height:1.6;font-weight:500}
-.wrap{max-width:480px;margin:0 auto;padding-inline:16px;padding-block:68px 40px;display:flex;flex-direction:column;gap:16px}
+.wrap{max-width:480px;margin:0 auto;padding-inline:16px;padding-block:12px 40px;display:flex;flex-direction:column;gap:16px}
 .stack{display:flex;flex-direction:column;gap:16px}
 h1,h2,h3{font-weight:900;margin:0;line-height:1.2;text-wrap:balance}
 p{margin:0}
@@ -145,7 +145,6 @@ p{margin:0}
 </head>
 <body>
 
-<button class="mute" id="mute" aria-label="關掉音效" title="音效開關">🔊</button>
 <div class="wrap" id="app">
 
   <div class="coins" id="coinbar" hidden aria-label="已投硬幣">投幣 <span class="coin" id="c0">1</span><span class="coin" id="c1">2</span><span class="coin" id="c2">3</span></div>
@@ -288,10 +287,9 @@ const Q=[
  {t:'你最近最在意哪一方面？',h:'這枚硬幣決定你轉到哪一顆',o:[['🍱','外食多，蔬菜吃得少','fiber'],['⚡','白天很忙，想補充活力','energy'],['🚶','久坐久站，想走得輕鬆','move'],['👀','常看手機，想晶亮保養','eye']]}
 ];
 let i=0,ans=[],busy=false;
-// 音效：WebAudio 現場合成（不用音檔），第一次點擊才建立；右上角可靜音，記在這台手機
+// 音效：WebAudio 現場合成（不用音檔），第一次點擊才建立（老闆 11/11：不要靜音鈕）
 const SFX=(()=>{
   let ac=null,on=true;
-  try{on=localStorage.getItem('gachaMute')!=='1'}catch(e){}
   const ctx=()=>{if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}if(ac.state==='suspended')ac.resume();return ac};
   function tone(f,d,type='square',vol=.12,at=0,to=null){
     const c=ctx();if(!c||!on)return;const t0=c.currentTime+at;
@@ -319,7 +317,7 @@ const SFX=(()=>{
     secret(){[784,988,1175,1568].forEach((f,k)=>tone(f,.18,'triangle',.12,k*.08))}
   };
 })();
-function setMuteIcon(){const b=document.getElementById('mute');b.textContent=SFX.on?'🔊':'🔇';b.setAttribute('aria-label',SFX.on?'關掉音效':'打開音效')}
+
 const $=id=>document.getElementById(id);
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wait=ms=>new Promise(r=>setTimeout(r,reduce?0:ms));
@@ -436,8 +434,6 @@ $('start').onclick=()=>{SFX.tap();gc('開始');i=0;ans=[];renderQ();show('s-q')}
 $('back').onclick=()=>{if(i>0&&!busy){SFX.tap();i--;renderQ()}};
 $('again').onclick=()=>{SFX.tap();$('drop').setAttribute('opacity','0');i=0;ans=[];coins(0);show('s-intro')};
 $('copylink').onclick=async e=>{gc('複製連結');const b=e.currentTarget;try{await navigator.clipboard.writeText(location.href.split('#')[0]);b.textContent='已複製，貼給家人吧'}catch(err){b.textContent='請從瀏覽器複製網址'}setTimeout(()=>b.textContent='複製連結，找家人來轉',1800)};
-$('mute').onclick=()=>{SFX.on=!SFX.on;setMuteIcon();SFX.tap()};
-setMuteIcon();
 function route(){const h=location.hash.slice(1);if(R[h])result(h);else if(h==='ask')show('s-ask')}
 window.addEventListener('hashchange',route);
 show('s-intro');route();

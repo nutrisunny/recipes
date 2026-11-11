@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<!-- build 2026-11-11 10:24 -->
+<!-- build 2026-11-11 12:29 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="6 題看你的三餐哪裡可以再補一點，測完送外食族餐盤小卡。">
@@ -145,8 +145,6 @@ p{margin:0}
 
 <div class="wrap" id="app">
 
-  <div class="toprow"><button class="mute" id="mute" aria-label="關掉音效" title="音效開關">🔊</button></div>
-
   <section id="s-intro" class="wrap" style="padding:0">
     <div class="brand">愛營養 iNutrition · 營養三點鐘</div>
     <h1>你的餐盤<span class="hl">及格嗎？</span></h1>
@@ -252,10 +250,9 @@ const RB='https://nutrisunny.github.io/recipes/';
 // 樣品版（claude.ai 擋外部圖片）把食譜小圖內嵌；正式版是空的，直接讀食譜網站的圖
 const RIMG={};
 let i=0,ans=[],busy=false;
-// 音效：WebAudio 現場合成（不用音檔），第一次點擊才建立；右上角可靜音，記在這台手機
+// 音效：WebAudio 現場合成（不用音檔），第一次點擊才建立（老闆 11/11：不要靜音鈕）
 const SFX=(()=>{
   let ac=null,on=true;
-  try{on=localStorage.getItem('plateMute')!=='1'}catch(e){}
   const ctx=()=>{if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}if(ac.state==='suspended')ac.resume();return ac};
   function tone(f,d,type='triangle',vol=.12,at=0,to=null){
     const c=ctx();if(!c||!on)return;const t0=c.currentTime+at;
@@ -355,8 +352,6 @@ async function copy(text,btn,done){
   try{await navigator.clipboard.writeText(text);const o=btn.textContent;btn.textContent=done;setTimeout(()=>btn.textContent=o,1600)}
   catch(e){btn.textContent='請長按上面文字複製'}
 }
-function setMuteIcon(){const b=$('mute');b.textContent=SFX.on?'🔊':'🔇';b.setAttribute('aria-label',SFX.on?'關掉音效':'打開音效')}
-$('mute').onclick=()=>{SFX.on=!SFX.on;setMuteIcon();SFX.tap()};setMuteIcon();
 $('recgrid').addEventListener('click',e=>{const a=e.target.closest('.rec');if(a)gc('看食譜/'+a.dataset.r)});
 $('linego').addEventListener('click',()=>gc('領小卡/'+$('kw').textContent));
 $('start').onclick=()=>{SFX.tap();gc('開始');i=0;ans=[];renderQ();show('s-q')};
