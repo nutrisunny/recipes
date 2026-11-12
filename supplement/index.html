@@ -1,12 +1,15 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<!-- build 2026-11-11 12:29 -->
+<!-- build 2026-11-12 11:19 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="轉一顆扭蛋，3 題找到你的日常保養方向。">
 <meta property="og:title" content="Sunny 保養扭蛋機｜3 題找到你的保養方向">
 <meta property="og:description" content="轉一顆扭蛋，3 題找到你的日常保養方向。">
+<meta property="og:image" content="https://nutrisunny.github.io/recipes/supplement/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <style>body{margin:0}img{max-width:100%}</style>
 <title>Sunny 保養扭蛋機</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -133,6 +136,15 @@ p{margin:0}
 .later a{color:var(--machine-d);font-weight:900}
 .extra{background:#FFF0B8;border:3px dashed var(--coin-d);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:10px}
 .extra h3{font-size:19px}
+.recgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.rec{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:16px;padding:6px 6px 10px}
+.rec img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:var(--dot)}
+.rec span{font-size:16px;font-weight:900;line-height:1.35;text-align:center}
+.more{font-size:17px;color:var(--machine-d);font-weight:900;text-align:center;text-decoration:underline}
+.xlink{display:flex;align-items:center;gap:12px;background:#fff;border:4px solid var(--ink);border-radius:20px;padding:14px 16px;text-decoration:none;color:var(--ink);box-shadow:0 5px 0 var(--ink)}
+.xlink .ico{font-size:40px;flex:none}
+.xlink b{display:block;font-size:20px}
+.xlink small{font-size:16px;color:var(--ink-soft)}
 .cta{background:var(--machine);color:#fff;border:4px solid var(--ink);border-radius:24px;padding:18px 16px;display:flex;flex-direction:column;gap:12px}
 .cta p{font-size:19px;font-weight:700}
 .cta .small{font-size:14px;color:#D8F3F2;text-align:center;font-weight:500}
@@ -229,6 +241,18 @@ p{margin:0}
       <h3 id="xtitle"></h3>
       <div id="xlist"></div>
     </div>
+
+    <div class="sect">
+      <h3>三餐也要顧：安媽廚房推薦</h3>
+      <p class="sub">保健食品是補充，飯菜還是主角。</p>
+      <div class="recgrid" id="recgrid"></div>
+      <a class="more" href="https://nutrisunny.github.io/recipes/" target="_blank" rel="noopener">看更多家常食譜 →</a>
+    </div>
+
+    <a class="xlink" id="toplate" href="https://nutrisunny.github.io/recipes/quiz/?from=gacha" target="_blank" rel="noopener">
+      <span class="ico" aria-hidden="true">🍱</span>
+      <span><b>你的餐盤及格嗎？</b><small>再玩一個：6 題看三餐哪裡可以再補一點 →</small></span>
+    </a>
 
     <div class="cta">
       <p>想問價格、優惠組合或怎麼吃？<br>把扭蛋結果傳給小幫手，馬上幫你看</p>
@@ -388,6 +412,12 @@ function confetti(){
   document.body.appendChild(box);setTimeout(()=>box.remove(),2600);
 }
 const link=k=>SHOP+P[k].u+'?'+UTM;
+const RECS={fiber:[['哈佛蔬菜湯','VID-234'],['炒牛蒡','VID-94'],['燕麥溫沙拉','VID-241']],
+ energy:[['香煎白鯧','VID-87'],['毛豆豆漿','VID-116'],['九層塔煎蛋','VID-138']],
+ move:[['毛豆豆腐','VID-117'],['昆布蒸蛋','VID-319'],['豆腐番茄起司','VID-205']],
+ eye:[['彩椒炒娃娃菜','VID-133'],['南瓜濃湯','VID-192'],['蛋香豆皮佐菠菜','VID-186']]};
+const RB='https://nutrisunny.github.io/recipes/';
+const RIMG={};
 function card(k,showHot,ctx){
   const p=P[k];
   return `<div class="prod">${showHot&&p.hot?`<span class="hot">官網熱銷第 ${p.hot} 名</span>`:''}<img src="${IMG[k]}" alt="${p.n}"><div class="info"><span class="nm">${p.n}</span><span class="what">${p.w}</span><a class="go" href="${link(k)}" target="_blank" rel="noopener" data-p="${p.n}">看商品介紹 →</a></div><p class="why"><b>為什麼推薦你：</b>${why(k,ctx)}</p></div>`;
@@ -420,11 +450,14 @@ function result(forced){
     $('xtitle').textContent=habit==='fish'?'🐟 你說魚類海鮮吃得少，也可以看看':'✨ 依你的生活習慣，也可以看看';
     $('xlist').innerHTML=card(extraKey,false,'habit');$('extra').hidden=false;
   }else $('extra').hidden=true;
+  $('recgrid').innerHTML=RECS[type].map(([n,u])=>`<a class="rec" href="${RB}?r=${u}" target="_blank" rel="noopener" data-r="${n}"><img src="${RIMG[u]||RB+u+'.jpg'}" alt=""><span>${n}</span></a>`).join('');
   $('sendres').href='https://line.me/R/oaMessage/@i333/?'+encodeURIComponent('我轉到「'+r.name+'」，想問小幫手');
   if(!forced)gc('完成/'+r.name+'/'+mode);
   show('s-res');
 }
 document.addEventListener('click',e=>{const a=e.target.closest('a.go,.later a');if(a)gc('看商品/'+(a.dataset.p||a.textContent))});
+$('recgrid').addEventListener('click',e=>{const a=e.target.closest('.rec');if(a)gc('看食譜/'+a.dataset.r)});
+$('toplate').addEventListener('click',()=>gc('轉餐盤測驗'));
 $('askline').addEventListener('click',()=>gc('問小幫手/LINE'));
 $('sendres').addEventListener('click',()=>gc('結果傳LINE/'+$('rname').textContent));
 $('spinbtn').onclick=spin;

@@ -1,12 +1,15 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<!-- build 2026-11-11 14:54 -->
+<!-- build 2026-11-12 11:20 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="6 題看你的三餐哪裡可以再補一點，測完教你外食怎麼點。">
 <meta property="og:title" content="你的餐盤及格嗎？｜Sunny 營養師 6 題小測驗">
 <meta property="og:description" content="6 題看你的三餐哪裡可以再補一點，測完教你外食怎麼點。">
+<meta property="og:image" content="https://nutrisunny.github.io/recipes/quiz/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <style>body{margin:0}img{max-width:100%}</style>
 <title>你的餐盤及格嗎</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -117,6 +120,10 @@ p{margin:0}
 .rec img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:var(--line)}
 .rec span{font-size:16px;font-weight:700;line-height:1.35;text-align:center;padding-inline:2px}
 .more{font-size:17px;color:var(--teal);font-weight:700;text-align:center;text-decoration:underline}
+.xlink{display:flex;align-items:center;gap:12px;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:14px 16px;text-decoration:none;color:var(--ink)}
+.xlink .ico{font-size:40px;flex:none}
+.xlink b{display:block;font-size:20px;font-family:var(--display)}
+.xlink small{font-size:16px;color:var(--ink-soft)}
 .foot{font-size:14px;color:var(--ink-soft);text-align:center;border-top:1px solid var(--line);padding-top:14px}
 .toprow{display:flex;justify-content:flex-end;margin-bottom:-8px}
 .mute{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--paper);font-size:20px;cursor:pointer;display:grid;place-items:center;padding:0}
@@ -212,6 +219,11 @@ p{margin:0}
         <div class="recgrid" id="recgrid"></div>
         <a class="more" href="https://nutrisunny.github.io/recipes/">看更多家常食譜 →</a>
       </div>
+
+      <a class="xlink" id="togacha" href="https://nutrisunny.github.io/recipes/supplement/?from=plate" target="_blank" rel="noopener">
+        <svg class="ico" width="44" height="44" viewBox="0 0 120 120" aria-hidden="true"><path d="M10 60 A50 50 0 0 1 110 60 Z" fill="#E4573D" stroke="#3B2416" stroke-width="7"/><path d="M10 60 A50 50 0 0 0 110 60 Z" fill="#fff" stroke="#3B2416" stroke-width="7"/></svg>
+        <span><b>Sunny 保養扭蛋機</b><small>再玩一個：轉一顆，3 題找到你的保養方向 →</small></span>
+      </a>
 
       <div class="cta">
         <p>想看更多 Sunny 營養師的<br>飲食小撇步？</p>
@@ -362,6 +374,7 @@ async function copy(text,btn,done){
   catch(e){btn.textContent='請長按上面文字複製'}
 }
 $('recgrid').addEventListener('click',e=>{const a=e.target.closest('.rec');if(a)gc('看食譜/'+a.dataset.r)});
+$('togacha').addEventListener('click',()=>gc('轉扭蛋機'));
 $('linego').addEventListener('click',()=>gc('加LINE'));
 $('start').onclick=()=>{SFX.tap();gc('開始');i=0;ans=[];renderQ();show('s-q')};
 $('back').onclick=()=>{if(i>0&&!busy){SFX.tap();i--;renderQ()}};
