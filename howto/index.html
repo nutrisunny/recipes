@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta property="og:title" content="產品怎麼吃｜愛營養 iNutrition">
+<meta property="og:description" content="點選你有的產品，營養師幫你排好一天的吃法">
+<meta property="og:image" content="https://nutrisunny.github.io/recipes/howto/img/sunny.png">
+<style>html,body{margin:0}img{max-width:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+<title>愛營養產品怎麼吃</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<!-- build 2026-11-25 18:13 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&display=swap">
+<style>
+/* 版面：LINE 內開的手機查詢頁。頂部搜尋＋分類，下面一款一張卡：產品圖＋三格吃法（一般保養／想加強／什麼時候吃）＋提醒＋兩顆按鈕。
+   刻意只做淺色（品牌頁、LINE 內建瀏覽器），字放大給長輩看 */
+:root{
+  --bg:#EEF5F2;
+  --paper:#FFFFFF;
+  --ink:#1F2B27;
+  --soft:#5B6B65;
+  --line:#D5E4DE;
+  --brand:#14857F;
+  --brand-d:#0E625D;
+  --brand-t:#DDF0EC;
+  --warm:#C8452F;
+  --warm-t:#FBE7E2;
+  --sun:#F3B23A;
+  --ln:#06C755;
+  --navy:#2D3A87;
+  --plum:#6E5A8C;
+  --plum-t:#F6F2FA;
+  --font:"Noto Sans TC","PingFang TC","Heiti TC","Microsoft JhengHei",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:18px;line-height:1.6;font-weight:500}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{margin:0;font-weight:900;line-height:1.25;text-wrap:balance}
+p{margin:0}
+
+.head{display:flex;align-items:flex-end;gap:12px;background:var(--paper);border-radius:20px;padding:18px 0 0 18px;overflow:hidden}
+.head .ht{display:flex;flex-direction:column;gap:6px;padding-bottom:18px;min-width:0;flex:1}
+.head img{flex:none;width:118px;height:auto;display:block}
+.bubble{align-self:flex-start;background:var(--brand);color:#fff;font-weight:900;font-size:15px;border-radius:14px 14px 14px 4px;padding:4px 12px}
+.head small{font-size:14px;font-weight:900;color:var(--brand);letter-spacing:.12em}
+.head h1{font-size:34px}
+.head p{color:var(--soft);font-size:16px}
+
+/* 搜尋＋分類：捲動時黏在上面 */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.tools{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;display:flex;flex-direction:column;gap:10px;margin-inline:-4px;padding-inline:4px}
+.search{display:flex;align-items:center;gap:8px;background:var(--paper);border:2px solid var(--line);border-radius:14px;padding:0 14px}
+.search:focus-within{border-color:var(--brand)}
+.search svg{flex:none;width:22px;height:22px;color:var(--soft)}
+.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:18px;color:var(--ink);padding:13px 0}
+.search input::placeholder{color:#8FA19A}
+.search button{border:0;background:none;color:var(--soft);font:inherit;font-size:15px;padding:6px;cursor:pointer}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:2px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:16px;font-weight:700;border-radius:99px;padding:6px 16px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.chip:focus-visible,.btn:focus-visible,.search button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+.group{display:flex;flex-direction:column;gap:12px}
+.group h2{font-size:21px;color:var(--navy);display:flex;align-items:center;gap:10px;text-align:center}
+.group h2::before,.group h2::after{content:"";flex:1;height:3px;background:var(--navy);border-radius:2px}
+.group h2.plain{height:3px;background:var(--line);border-radius:2px}
+.group h2.plain::before,.group h2.plain::after{display:none}
+.group h2 span{font-size:14px;color:var(--soft);font-weight:700}
+.card.jp{background:var(--plum-t)}
+.badge{display:inline-block;font-size:12px;font-weight:900;color:var(--plum);border:1.5px solid var(--plum);border-radius:99px;padding:0 8px;margin-bottom:2px}
+
+.card{scroll-margin-top:16px;background:var(--paper);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:14px;box-shadow:0 1px 0 var(--line),0 6px 18px -12px rgba(20,60,50,.35)}
+.top{display:flex;gap:14px;align-items:center}
+.top img{flex:none;width:92px;height:92px;object-fit:contain;border-radius:16px;background:var(--bg);border:4px solid var(--tint,var(--brand-t))}
+.top div{min-width:0}
+.top h3{font-size:22px}
+.top p{font-size:15px;color:var(--soft)}
+.top .price{font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums}
+
+.hook{position:relative;background:var(--tint-bg,#FFF8E6);border-radius:16px;padding:14px 16px 14px 18px;display:flex;flex-direction:column;gap:4px;border-left:6px solid var(--tint,var(--sun))}
+.hook .hq{font-size:19px;font-weight:900;color:var(--warm);line-height:1.4}
+.hook .ha{font-size:18px;font-weight:700;color:var(--ink);line-height:1.5;text-wrap:balance}
+.hook .hq{text-wrap:balance}
+.hook .ha,.hook .hq{word-break:keep-all;overflow-wrap:anywhere}
+.pts{list-style:none;margin:0;padding:12px 14px;background:var(--tint-bg,#FFF8E6);border-radius:14px;display:flex;flex-direction:column;gap:6px;font-size:17px;font-weight:700;line-height:1.45}
+.pts li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:baseline}
+.pts li b{font-size:14px;font-weight:900;color:#fff;background:var(--warm);border-radius:8px;padding:1px 8px;white-space:nowrap}
+.pts li:last-child b{background:var(--brand)}
+.intro{font-size:16px;line-height:1.6;color:var(--ink);margin:-4px 2px 0}
+.how{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.how.one{grid-template-columns:1fr}
+/* 長輩版：吃幾粒畫出膠囊、什麼時候吃畫出圖示，字放大 */
+.cell{border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;background:var(--brand-t);min-height:118px}
+.cell b{font-size:14px;font-weight:700;color:var(--brand-d);letter-spacing:.04em}
+.cell span{font-size:23px;font-weight:900;line-height:1.25;overflow-wrap:anywhere}
+.cell.when{background:var(--warm-t)}
+.cell.when b{color:var(--warm)}
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;min-height:30px;align-items:center}
+.pills svg{width:34px;height:16px}
+.pills svg.pk{width:22px;height:28px}
+.tic{width:44px;height:44px}
+.pair{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px 8px;background:var(--bg);border-radius:12px;padding:10px 8px;font-size:16px;font-weight:700;min-width:0}
+.pchips{display:contents}
+.pl{white-space:nowrap}
+.pchips::-webkit-scrollbar{display:none}
+.pchips a{flex:none;white-space:nowrap;font-size:14px;letter-spacing:-.02em;padding:3px 7px !important}
+.pair a{display:inline-flex;align-items:center;gap:4px;background:var(--paper);border:2px solid var(--brand);color:var(--brand-d);border-radius:99px;padding:2px 12px;text-decoration:none;font-weight:900}
+.cell em.bst{font-style:normal;font-size:18px;font-weight:900;color:var(--brand-d);line-height:1.3}
+.cell small.bnote{font-size:13px;font-weight:700;color:var(--soft);line-height:1.35;text-wrap:balance}
+.boost{font-size:16px;color:var(--soft);text-align:center;margin-top:-4px}
+.boost b{color:var(--brand-d)}
+
+.tips{list-style:none;margin:0;padding:12px 14px;border:2px dashed var(--line);border-radius:12px;display:flex;flex-direction:column;gap:4px;font-size:16px}
+.tips li{display:flex;gap:8px}
+.tips li::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--sun);margin-top:.62em}
+
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;text-align:center;text-decoration:none;font-weight:900;font-size:16px;border-radius:12px;padding:11px 8px;min-height:48px}
+.btn.shop{background:var(--paper);color:var(--brand-d);border:2px solid var(--brand)}
+.btn.ask{background:var(--ln);color:#fff;border:2px solid var(--ln)}
+.lineic{width:24px;height:24px;flex:none}
+.btns .btn{white-space:nowrap;font-size:15px;padding:11px 4px;gap:4px}
+
+.empty{background:var(--paper);border-radius:18px;padding:22px 18px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.empty .btn{width:100%;max-width:320px}
+
+.foot{background:var(--brand-d);color:#fff;border-radius:18px;padding:20px 18px;display:flex;flex-direction:column;gap:10px}
+.foot h2{font-size:21px}
+.foot p.lines span{display:block}
+.foot p{font-size:16px;opacity:.92}
+.foot .btn{background:var(--ln);color:#fff;border:0}
+.myday{background:var(--paper);border-radius:20px;padding:18px 16px;display:flex;flex-direction:column;gap:14px;border:3px solid var(--sun)}
+.myday h2{font-size:24px;display:flex;align-items:center;gap:8px}
+.myday h2 svg{width:30px;height:30px;flex:none}
+.myday>p{font-size:17px;color:var(--soft)}
+.pick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pk-btn{display:flex;flex-direction:column;align-items:center;gap:4px;border:3px solid var(--line);background:var(--paper);border-radius:14px;padding:8px 4px;font:inherit;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;line-height:1.25;position:relative;min-width:0}
+.pk-btn img{width:56px;height:56px;object-fit:contain;border-radius:10px;background:var(--bg)}
+.pk-btn span{overflow-wrap:anywhere}
+.pk-btn[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-t)}
+.pk-btn[aria-pressed="true"]::after{content:"✓";position:absolute;top:-8px;right:-6px;width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;font-size:16px;font-weight:900;display:grid;place-items:center}
+.pk-btn:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.sched{display:flex;flex-direction:column;gap:0;border-radius:16px;overflow:hidden;border:2px solid var(--line)}
+.sched .row{display:grid;grid-template-columns:92px minmax(0,1fr);background:var(--paper)}
+.sched .row+.row{border-top:2px solid var(--line)}
+.sched .when{background:var(--warm-t);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:10px 4px;text-align:center;font-weight:900;font-size:16px;color:var(--warm);line-height:1.25}
+.sched .when .tic{width:36px;height:36px}
+.sched ul{list-style:none;margin:0;padding:10px 12px;display:flex;flex-direction:column;gap:6px;justify-content:center}
+.sched li{font-size:19px;font-weight:900;line-height:1.35}
+.sched li em{display:block;font-style:normal;font-size:17px;font-weight:900;color:var(--brand-d)}
+.sched-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sched-head b{font-size:19px}
+.sched-head button{white-space:nowrap;border:2px solid var(--line);background:var(--paper);border-radius:99px;font:inherit;font-size:14px;font-weight:700;padding:4px 12px;cursor:pointer;color:var(--soft)}
+.allbtn{align-self:center;border:2px solid var(--brand);background:var(--paper);color:var(--brand-d);border-radius:99px;font:inherit;font-size:15px;font-weight:900;padding:6px 18px;cursor:pointer}
+#list{display:flex;flex-direction:column;gap:14px}
+.listtop{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.listtop button{white-space:nowrap;border:2px solid var(--line);background:var(--paper);border-radius:99px;font:inherit;font-size:14px;font-weight:700;padding:4px 12px;cursor:pointer;color:var(--soft)}
+.sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+/* 11-25 老闆：時段兩個一排並列 */
+.sum-row{background:var(--paper);border:3px solid var(--warm-t);border-radius:16px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.sum-row .tic{width:42px;height:42px;flex:none}
+.sum-row p{display:flex;flex-direction:column;align-items:center;font-size:17px;font-weight:700;line-height:1.45;min-width:0}
+.sum-row b{font-size:19px;color:var(--warm);margin-bottom:2px}
+.sum-row p span{display:block;overflow-wrap:anywhere}
+.sum-row p span small{display:block;width:fit-content;max-width:100%;margin:2px auto 4px;font-size:13px;font-weight:900;color:#fff;background:var(--warm);border-radius:10px;padding:1px 8px;line-height:1.5;text-wrap:balance}
+.sum-row{overflow:hidden}
+.sum-row:last-child:nth-child(odd){grid-column:1/-1}
+.slot{display:flex;flex-direction:column;gap:12px}
+.slot-h{display:flex;align-items:center;gap:10px;font-size:22px;color:var(--warm);background:var(--warm-t);border-radius:14px;padding:8px 14px}
+.slot-h .tic{width:44px;height:44px;flex:none}
+.slot-h .st{display:flex;flex-direction:column;min-width:0;flex:1;line-height:1.3}
+.slot-h em{font-style:normal;font-size:16px;font-weight:700;color:var(--ink);overflow-wrap:anywhere}
+.listhead{font-size:22px;color:var(--navy)}
+.hint{background:var(--paper);border-radius:18px;padding:20px;text-align:center;color:var(--soft);font-size:17px}
+[hidden]{display:none!important}
+/* 底部固定列：選了才出現，按了滑到時間表 */
+.gobar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:linear-gradient(to top,var(--bg) 70%,transparent);pointer-events:none}
+.gobar button{pointer-events:auto;width:100%;max-width:528px;display:flex;align-items:center;justify-content:space-between;gap:10px;border:0;border-radius:16px;background:var(--brand);color:#fff;font:inherit;font-size:18px;font-weight:900;padding:14px 18px;min-height:56px;cursor:pointer;box-shadow:0 8px 20px -8px rgba(14,98,93,.6)}
+.gobar button span:last-child{background:#fff;color:var(--brand-d);border-radius:99px;padding:4px 14px;font-size:17px}
+.gobar.pop button{animation:pop .35s ease-out}
+@keyframes pop{0%{transform:scale(.96)}60%{transform:scale(1.03)}100%{transform:none}}
+.wrap{padding-bottom:110px}
+.shot{font-size:15px;color:var(--soft);text-align:center}
+/* DM 底部那行紅字：搬到最上面 */
+.med{background:var(--warm-t);color:var(--warm);font-weight:900;border-radius:14px;padding:12px 16px;font-size:17px;text-align:center}
+.note{font-size:13px;color:var(--soft);text-align:center}
+@media (prefers-reduced-motion:no-preference){.card{animation:in .25s ease-out both}@keyframes in{from{transform:translateY(6px)}to{transform:none}}}
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <div class="ht">
+      <small>愛營養 iNutrition</small>
+      <span class="bubble">Sunny 營養師教你</span>
+      <h1>產品怎麼吃</h1>
+      <p>每款吃幾粒、什麼時候吃，一次查清楚。</p>
+    </div>
+    <img src="img/sunny.png" alt="Sunny 營養師拿著膠囊和水杯" width="118" height="174">
+  </header>
+  <p class="med">注意事項：記得與藥物隔開 1～2 小時喔</p>
+
+  <section class="myday" aria-labelledby="mdh">
+    <h2 id="mdh"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="9" width="38" height="34" rx="6" fill="#fff" stroke="#14857F" stroke-width="3"/><path d="M5 19h38" stroke="#14857F" stroke-width="3"/><path d="M15 5v8M33 5v8" stroke="#14857F" stroke-width="3" stroke-linecap="round"/><path d="m16 30 5 5 11-11" stroke="#C8452F" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>點選你有的產品</h2>
+    <p>家裡有哪幾罐？點一點，營養師幫你排好一天的吃法 ✨</p>
+    <div class="pick" id="pick"></div>
+    <div id="sched" hidden></div>
+  </section>
+
+
+  <main id="list" class="stack"></main>
+  <div class="gobar" id="gobar" hidden><button type="button" id="gobtn"><span id="gocount">✓ 已選 0 款</span><span>看怎麼吃 ↓</span></button></div>
+
+  <section class="foot">
+    <h2>還是不確定怎麼吃？</h2>
+    <p class="lines"><span>跟其他保健品能不能一起吃？</span><span>正在吃藥能不能吃？</span><span>用 LINE 傳訊息問營養師，</span><span>我們會幫你確認。</span></p>
+    <a class="btn" href="https://line.me/R/oaMessage/@i333/?%E6%88%91%E6%83%B3%E5%95%8F%E7%87%9F%E9%A4%8A%E5%B8%AB" target="_blank" rel="noopener"><svg class="lineic" viewBox="0 0 48 48" aria-hidden="true"><path fill="#fff" d="M24 6C12.4 6 3 13.6 3 23c0 8.4 7.5 15.4 17.6 16.8.7.1 1.6.4 1.9 1 .2.5.1 1.3.1 1.8l-.3 1.8c-.1.5-.4 2.1 1.8 1.1 2.2-.9 12-7.1 16.4-12.1 3-3.3 4.5-6.7 4.5-10.4C45 13.6 35.6 6 24 6z"/><text x="24" y="27.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="12.5" fill="#06C755">LINE</text></svg>LINE問營養師</a>
+  </section>
+  <p class="note">吃法依愛營養全系列商品食用方式整理</p>
+</div>
+
+<script>
+const DATA = [{"id": "P04", "group": "飯後", "series": "愛營養系列", "name": "遠近持明", "kind": "金盞花葉黃素膠囊", "spec": "", "keep": "1粒/天", "boost": "2粒/天", "when": "三餐飯後", "alias": "葉黃素", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["追劇、滑手機，停不下來？", "每天一顆金盞花葉黃素，3C 族的日常保養"], "pair": [{"id": "P02", "name": "魚兒水中油"}], "tips": ["吃素的人可以吃", "有重大疾病或體質過敏，先問醫師或營養師"], "url": "https://www.inutrition.com.tw/products/9524c203-c6cd-471d-9fd3-afa3b6f894ee?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P04.jpg"}, {"id": "P10", "group": "睡前", "series": "愛營養系列", "name": "追趕跑跳碰", "kind": "UCII 膠原蛋白膠囊", "spec": "", "keep": "2粒/天", "boost": "4粒/天（早上空腹 2 粒＋睡前 2 粒）", "when": "早上空腹或睡前", "alias": "UC-II,UCII,二型膠原蛋白", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["50 歲之後，想跟得上家人的腳步？", "原廠 UC-II 膠原蛋白，愛運動的人和銀髮族都在吃"], "pair": [{"id": "P03", "name": "鈣是英雄"}], "tips": ["有重大疾病或體質過敏，先問醫師或營養師"], "url": "https://www.inutrition.com.tw/products/429b87fd-6125-470a-bd69-70ede5f25abf?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P10.jpg"}, {"id": "P05", "group": "飯後", "series": "愛營養系列", "name": "薑黃袍加身", "kind": "薑黃素膠囊", "spec": "", "keep": "1粒/天", "boost": "2粒/天", "when": "三餐飯後", "alias": "薑黃,薑黃素", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["應酬多、外食多？", "日本＋印度雙薑黃，交際應酬的好幫手"], "pair": [{"id": "P01", "name": "天天裝B+C"}], "tips": ["吃素的人可以吃", "有重大疾病或體質過敏，先問醫師或營養師"], "url": "https://www.inutrition.com.tw/products/3c831bc1-d547-4656-8b4e-5551a239c600?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P05.jpg"}, {"id": "P09", "group": "飯前", "series": "愛營養系列", "name": "穩穩棒棒堂", "kind": "山苦瓜桑葉複方膠囊", "spec": "", "keep": "1粒/天", "boost": "3粒/天（三餐飯前各 1 粒）", "when": "飯前", "alias": "穩穩,棒棒堂,穩穩棒棒糖,苦瓜,苦瓜精,苦瓜胜肽,苦瓜生肽,山苦瓜,桑葉", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["三餐外食、常常聚餐？", "平常吃苦瓜不會吃籽，穩穩把苦瓜籽也放進來，飯前一顆"], "pair": [{"id": "P13", "name": "心纖餐・心纖飲"}], "tips": ["吃素的人可以吃", "有重大疾病或體質過敏，先問醫師或營養師"], "url": "https://www.inutrition.com.tw/products/e22b4362-4e6d-4621-afb0-5e62ac6c4da7?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P09.jpg"}, {"id": "P03", "group": "睡前", "series": "愛營養系列", "name": "鈣是英雄", "kind": "海藻鈣鎂DK膠囊", "spec": "", "keep": "2粒/天", "boost": "4粒/天", "when": "睡前", "alias": "鈣,蓋世英雄,鈣世英雄,海藻鈣,鈣鎂", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["一天的鈣，牛奶要喝幾杯？", "要喝到 4 杯！睡前兩顆海藻鈣，青少年到阿嬤都適合"], "pair": [{"id": "P10", "name": "追趕跑跳碰"}], "tips": ["奶素可以吃", "含牛奶，對牛奶過敏的人不適合"], "url": "https://www.inutrition.com.tw/products/c7041e73-c44d-4e83-87b8-ef1ae6001c95?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P03.jpg"}, {"id": "P08", "group": "飯後", "series": "愛營養系列", "name": "記得你記得我", "kind": "猴頭菇菌絲體膠囊", "spec": "", "keep": "1粒/天", "boost": "2粒/天", "when": "三餐飯後", "alias": "猴頭,猴頭菇,猴頭素", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["吃猴頭菇料理，就有猴頭素嗎？", "猴頭菇菌絲體雙發酵，學生、上班族到長輩都在吃"], "pair": [], "tips": ["全素可以吃", "對菇類比較敏感的人先不要吃"], "url": "https://www.inutrition.com.tw/products/095458dc-2e74-4f1e-b715-a032587838dc?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P08.jpg"}, {"id": "P02", "group": "飯後", "series": "愛營養系列", "name": "魚兒水中油", "kind": "85%純淨魚油", "spec": "", "keep": "1粒/天", "boost": "2粒/天", "when": "三餐飯後", "alias": "魚油,水中油,85%純淨魚油", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["不愛吃魚，又嫌魚刺麻煩？", "魚油是保健品的剛需款，一天一顆就好"], "pair": [{"id": "P15", "name": "超頂級納豆錠"}, {"id": "P01", "name": "天天裝B+C"}, {"id": "P04", "name": "遠近持明"}], "tips": ["孕婦、哺乳中、凝血功能不佳、即將開刀的人，先問醫師或營養師"], "url": "https://www.inutrition.com.tw/products/ae7d8300-ab77-41e5-8458-8c5e9ced9077?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P02.jpg"}, {"id": "P06", "group": "飯後", "series": "愛營養系列", "name": "無敵神攝手", "kind": "茄紅素膠囊", "spec": "", "keep": "1粒/天", "boost": "3粒/天", "when": "三餐飯後", "alias": "茄紅素,番茄,蕃茄膠囊", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["年過 40，想替自己多保養一點？", "以色列 LRT 番茄的茄紅素，熟齡男女的日常保養"], "pair": [{"id": "P21", "name": "每日番茄原汁", "url": "https://www.inutrition.com.tw/products/e16a8162-1a46-4709-a624-dedd66571937?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃"}], "tips": ["純素可以吃"], "url": "https://www.inutrition.com.tw/products/a30cbe0e-04ab-414e-bdcb-6f281d0c6db8?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P06.jpg"}, {"id": "P07", "group": "飯後", "series": "愛營養系列", "name": "不能莓有你", "kind": "蔓越莓膠囊", "spec": "", "keep": "1粒/天", "boost": "2粒/天", "when": "三餐飯後", "alias": "蔓越莓", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["吃蔓越莓果乾，跟吃萃取一樣嗎？", "兩種專利蔓越莓做成膠囊，不用吃糖，女生的日常保養"], "pair": [{"id": "P12", "name": "JQ膠原飲"}], "tips": ["奶素可以吃"], "url": "https://www.inutrition.com.tw/products/a0148a4c-e44b-4210-bd95-71494365a559?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P07.jpg"}, {"id": "P01", "group": "飯後", "series": "愛營養系列", "name": "天天裝B+C", "kind": "酵母綜合維生素B群+C", "spec": "", "keep": "2粒/天", "boost": "4粒/天", "when": "三餐飯後", "alias": "天天裝B,B群,維他命B,維生素B,裝B", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["補 B 群，為什麼一直沒感覺？", "不是補一種 B 就好，要整套的；每天兩顆 B 群＋C"], "pair": [{"id": "P02", "name": "魚兒水中油"}, {"id": "P05", "name": "薑黃袍加身"}], "tips": ["有重大疾病或體質過敏，先問醫師或營養師"], "url": "https://www.inutrition.com.tw/products/269a8efe-961e-4507-bf31-840589de9f64?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P01.jpg"}, {"id": "P11", "group": "睡前", "series": "愛營養系列", "name": "益眠大一寸", "kind": "番紅花GABA益生菌膠囊", "spec": "", "keep": "3粒/天", "boost": null, "when": "睡前 30 分鐘～1 小時", "alias": "益眠,憶眠,一眠大一寸,大一寸,助眠", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["生活步調緊湊，晚上總是放不下？", "睡前三粒，我們負責好的產品，你負責好好休息"], "pair": [], "tips": ["每天最多 3 粒", "有在服用安眠藥的話，請先詢問醫生", "孕婦、哺乳中、嬰幼兒請先問醫師", "全素可以吃"], "url": "https://www.inutrition.com.tw/products/d6a07df8-032c-4e4b-9422-f3e1a2e53a13?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P11.jpg"}, {"id": "P12", "group": "其他時間", "series": "愛營養系列", "name": "JQ膠原飲", "kind": "膠原飲・水蜜桃口味", "spec": "", "keep": "1包/天", "boost": null, "when": "早上空腹", "alias": "JQ,膠原飲", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["膠原飲是魔法水，還是智商稅？", "都不是！一天一包水蜜桃口味，30 後的內在保養"], "pair": [{"id": "P07", "name": "不能莓有你"}], "tips": ["喝之前先搖一搖", "撕開包裝直接喝", "有沉澱是發酵的自然現象，可以放心喝"], "url": "https://www.inutrition.com.tw/products/239450a3-5047-432f-9f45-ec8e551e41a4?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P12.jpg"}, {"id": "P13", "group": "其他時間", "series": "愛營養系列", "name": "心纖餐・心纖飲", "kind": "高纖代餐系列", "spec": "", "keep": "1 包", "boost": null, "when": "取代一餐", "alias": "心纖,纖餐,代餐,心纖飲,纖飲,心纖飲,心纖", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["喝穀粉、燕麥飲，為什麼越喝越餓？", "心纖餐熱水一沖就是一餐，懶人早餐 90 秒"], "pair": [{"id": "P09", "name": "穩穩棒棒堂"}], "tips": ["一包加 150～200c.c. 溫熱水沖泡", "心纖餐口味：黑芝麻／菇菇／無加糖藜麥／地瓜", "心纖飲口味：可可／紅茶拿鐵"], "url": "https://www.inutrition.com.tw/pages/%E5%BF%83%E7%BA%96%E7%B3%BB%E5%88%97?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P13_14.jpg"}, {"id": "P15", "group": "飯後", "series": "日本原裝系列", "name": "超頂級納豆錠", "kind": "納豆錠 NKCP®", "spec": "", "keep": "2粒/天", "boost": "4-6粒/天", "when": "晚餐飯後", "alias": "納豆,納豆錠,NKCP,大和", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["想吃納豆，又怕味道和黏黏的口感？", "日本大和藥品原裝進口，去掉味道和黏性"], "pair": [{"id": "P02", "name": "魚兒水中油"}], "tips": ["吃素的人可以吃", "含大豆，對大豆過敏的人不適合"], "url": "https://www.inutrition.com.tw/products/13821778-133a-4e78-a4c7-832902fded57?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P15.jpg"}, {"id": "P16", "group": "飯後", "series": "日本原裝系列", "name": "稻米可活力", "kind": "LK 乳酸菌生成素", "spec": "", "keep": "1條/天", "boost": "2-3條/天", "when": "三餐飯後", "alias": "可活力,稻米可活力,益生菌,Kefira", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["每天吃這麼多菌，真的留得下來嗎？", "可活力是菌發酵後的生成素，日本稻米培養、不含乳製品"], "pair": [], "tips": ["不含乳製品成分"], "url": "https://www.inutrition.com.tw/products/423756b8-ff0c-4c53-8c61-f3863e755e60?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P16.jpg"}, {"id": "P17", "group": "其他時間", "series": "日本原裝系列", "name": "百活健", "kind": "米糠多醣體（米蕈）", "spec": "", "keep": "1包/天", "boost": "2-3包/天", "when": "什麼時候都可以", "alias": "百活健,百話健,米糖,米蕈,LENTIN", "price": null, "btn": "🛍️ 看商品介紹", "ext": false, "intro": "", "points": ["想找日本原裝的保養品？", "日本大和藥品的米蕈，一天一包"], "pair": [], "tips": ["含牛奶、大豆，對這兩樣過敏的人不適合"], "url": "https://www.inutrition.com.tw/products/5f10f090-d35d-419c-8131-e36a1ef97b13?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P17.jpg"}, {"id": "P18", "group": "其他時間", "series": "日本原裝系列", "name": "愛保乳膏", "kind": "月見草乳膏 EPOGLAN", "spec": "", "keep": "適量", "boost": null, "when": "什麼時候都可以", "alias": "愛保,愛寶,月見草乳膏,乳膏,EPOGLAN", "price": null, "btn": "🛍️ 看商品介紹", "ext": true, "intro": "", "points": ["全家只想備一條乳膏？", "從 0 歲到 100 歲都能擦的日本月見草乳膏"], "pair": [], "tips": ["外用乳膏，塗抹在肌膚上，不能吃", "配方溫和，全家都能用"], "url": "https://www.inutrition.com.tw/products/537ae33b-5f35-4f31-a4f5-dceb59216ff7?utm_source=line&utm_medium=richmenu&utm_campaign=產品怎麼吃", "img": "img/P18.jpg"}];
+const GROUPS = ['飯前', '飯後', '睡前', '其他時間'].filter(g => DATA.some(d => d.group === g));
+// DM 每款圓框的底色
+const TINT = {P04:'#F6D9A8',P10:'#E3CBE6',P05:'#E8CFA0',P09:'#CDE3B5',P03:'#BFD0EA',P08:'#BFE0C6',P02:'#BFE3E2',P06:'#C9D7EE',P07:'#F3C6D1',P01:'#F2B9B9',P11:'#D9CCF0',P12:'#EFE4CF',P13:'#E9DDCB',P14:'#EFC9D7',P15:'#D5CDE2',P16:'#D5CDE2',P17:'#D5CDE2',P18:'#D5CDE2'};
+const $ = s => document.querySelector(s);
+let cur = '全部';
+
+function ask(name){ return 'https://line.me/R/oaMessage/@i333/?' + encodeURIComponent(`我想問「${name}」怎麼吃`); }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function fmt(v){ // 「1粒/天」→「每天 1 粒」；其他原樣
+  if(!v) return v;
+  const m = String(v).match(/^([\d\-～~]+)\s*([粒包條])\/天(.*)$/);
+  return m ? `每天 ${m[1]} ${m[2]}${m[3]}` : v;
+}
+// 圖示：膠囊／包裝／時間
+const CAP = '<svg viewBox="0 0 40 18" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="15" rx="7.5" fill="#fff" stroke="#14857F" stroke-width="2.4"/><path d="M20 1.5h11a7.5 7.5 0 0 1 0 15H20z" fill="#F3B23A" stroke="#14857F" stroke-width="2.4"/></svg>';
+const PK = '<svg class="pk" viewBox="0 0 22 28" aria-hidden="true"><path d="M2 4l3-2.5L8 4l3-2.5L14 4l3-2.5L20 4v22H2z" fill="#fff" stroke="#14857F" stroke-width="2.2" stroke-linejoin="round"/><rect x="5" y="11" width="12" height="8" rx="2" fill="#F3B23A"/></svg>';
+const TIC = {
+  before: '<svg class="tic" viewBox="0 0 48 48" aria-hidden="true"><path d="M17 6c-2 3 2 5 0 8M24 5c-2 3 2 5 0 8M31 6c-2 3 2 5 0 8" stroke="#C8452F" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="24" cy="22" rx="17" ry="6" fill="#fff" stroke="#3B2416" stroke-width="2.4"/><path d="M7 22c0 11 8 18 17 18s17-7 17-18" fill="#C8452F" stroke="#3B2416" stroke-width="2.4"/><rect x="17" y="40" width="14" height="4" rx="2" fill="#3B2416"/></svg>',
+  after: '<svg class="tic" viewBox="0 0 48 48" aria-hidden="true"><path d="M30 4 40 22M36 3l4 19" stroke="#3B2416" stroke-width="2.4" stroke-linecap="round"/><path d="M7 24c0 10 8 16 17 16s17-6 17-16z" fill="#fff" stroke="#3B2416" stroke-width="2.4" stroke-linejoin="round"/><path d="M12 30c3 3 7 4 12 4" stroke="#C8452F" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="17" y="40" width="14" height="4" rx="2" fill="#3B2416"/></svg>',
+  sleep: '<svg class="tic" viewBox="0 0 48 48" aria-hidden="true"><path d="M30 6a17 17 0 1 0 12 26A14 14 0 0 1 30 6z" fill="#F3B23A" stroke="#3B2416" stroke-width="2.4" stroke-linejoin="round"/><path d="M36 8h6l-6 7h6" stroke="#2D3A87" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  morning: '<svg class="tic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="9" fill="#F3B23A" stroke="#3B2416" stroke-width="2.4"/><g stroke="#C8452F" stroke-width="2.6" stroke-linecap="round"><path d="M24 4v6M24 38v6M4 24h6M38 24h6M10 10l4 4M34 34l4 4M38 10l-4 4M14 34l-4 4"/></g></svg>',
+  any: '<svg class="tic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18" fill="#fff" stroke="#3B2416" stroke-width="2.4"/><path d="M24 13v11l8 5" stroke="#C8452F" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
+function timeIcon(w){
+  if(!w) return TIC.any;
+  if(w.includes('睡')) return TIC.sleep;
+  if(w.includes('早上')) return TIC.morning;
+  if(w.includes('飯後')) return TIC.after;
+  if(w.includes('前') || w.includes('取代一餐')) return TIC.before;
+  return TIC.any;
+}
+function pills(v){ // 「3粒/天」→畫 3 顆膠囊；包/條畫小包
+  const m = String(v || '').match(/^(\d+)\s*([粒包條])/);
+  if(!m || +m[1] > 4) return '';
+  return `<div class="pills">${(m[2] === '粒' ? CAP : PK).repeat(+m[1])}</div>`;
+}
+// ===== 我的一天怎麼吃 =====
+const SLOTS = [
+  {k:'morning', t:'早上空腹', ic:'morning', f:w => w.includes('早上') && !w.includes('睡')},
+  {k:'before',  t:'吃飯前',   ic:'before',  f:w => w.includes('飯前')},
+  {k:'meal',    t:'取代一餐', ic:'before',  f:w => w.includes('取代一餐')},
+  {k:'after',   t:'吃完飯',   ic:'after',   f:w => w.includes('飯後')},
+  {k:'sleep',   t:'睡前',     ic:'sleep',   f:w => w.includes('睡')},
+  {k:'any',     t:'什麼時候都可以', ic:'any', f:() => true}
+];
+let picked = new Set();
+try { picked = new Set(JSON.parse(localStorage.getItem('howtoPicked') || '[]')); } catch(e) {}
+function savePick(){ try { localStorage.setItem('howtoPicked', JSON.stringify([...picked])); } catch(e) {} }
+function short(n){ return n.replace(/^NAKAKI/, ''); }
+function renderPick(){
+  $('#pick').innerHTML = DATA.map(d => `<button type="button" class="pk-btn" data-id="${d.id}" aria-pressed="${picked.has(d.id)}"><img src="${d.img}" alt="" loading="lazy" width="56" height="56"><span>${esc(short(d.name))}</span></button>`).join('');
+}
+function renderBar(bump){
+  const n = picked.size, bar = $('#gobar');
+  bar.hidden = !n;
+  $('#gocount').textContent = `✓ 已選 ${n} 款`;
+  if(bump){ bar.classList.remove('pop'); void bar.offsetWidth; bar.classList.add('pop'); }
+}
+// 滑到時間表後就把底部列收起來，往上捲回格子時再出現
+let listSeen = false;
+// 11-25 修：滑到格子最下面(愛保)時列會消失→改成「格子區還在畫面上就顯示」，整個滑進清單才收起
+try { new IntersectionObserver(es => { listSeen = !es[0].isIntersecting; $('#gobar').style.visibility = listSeen ? 'hidden' : ''; }, {rootMargin:'0px 0px -90px 0px'}).observe(document.querySelector('.myday')); } catch(e) {}
+function renderSched(){ $('#sched').hidden = true; }  // 11-25 老闆：時間表拿掉，改成下面卡片按時段分組
+document.addEventListener('click', e => {
+  const b = e.target.closest('.pk-btn');
+  if(b){ const id = b.dataset.id; picked.has(id) ? picked.delete(id) : picked.add(id); b.setAttribute('aria-pressed', picked.has(id)); savePick(); renderSched(); render(); renderBar(true); return; }
+  const g = e.target.closest('[data-go]');
+  if(g){ e.preventDefault(); picked.add(g.dataset.go); savePick(); renderPick(); renderSched(); render(); renderBar();
+    const t = document.getElementById(g.dataset.go); if(t){ t.scrollIntoView({behavior:'smooth', block:'start'}); t.animate([{boxShadow:'0 0 0 4px #F3B23A'},{boxShadow:'0 0 0 0 transparent'}],{duration:1600}); } return; }
+  if(e.target.id === 'reset'){ picked.clear(); savePick(); renderPick(); renderSched(); render(); renderBar(); }
+  if(e.target.closest('#gobtn')){ document.getElementById('list').scrollIntoView({behavior:'smooth', block:'start'}); }
+});
+
+function card(d){
+  const cells = [];
+  // 11-25 老闆：加強量收進「吃多少」格：保養 1 粒／加強 2 粒
+  const amt = v => { const m = String(v || '').match(/^([\d\-～~]+)\s*([粒包條])\/天[（(]?([^）)]*)[）)]?$/); return m ? [`${m[1]} ${m[2]}`, m[3].trim()] : [v, '']; };
+  const k = amt(d.keep), bst = d.boost ? amt(d.boost) : null;
+  const dose = bst ? `<span>保養 ${esc(k[0])}</span><em class="bst">加強 ${esc(bst[0])}</em>${bst[1] ? `<small class="bnote">${esc(bst[1])}</small>` : ''}` : `<span>${esc(fmt(d.keep))}</span>`;
+  if(d.keep) cells.push(`<div class="cell"><b>${d.ext ? '用量' : '吃多少'}</b>${pills(d.keep)}${dose}</div>`);
+  if(d.when) cells.push(`<div class="cell when"><b>${d.ext ? '什麼時候用' : '什麼時候吃'}</b>${timeIcon(d.when)}<span>${esc(d.when)}</span></div>`);
+  const cls = cells.length === 2 ? 'how' : 'how one';
+  const pair = d.pair && d.pair.length ? `<div class="pair"><span class="pl">搭配吃</span><div class="pchips">${d.pair.map(x => x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a>` : `<a href="#${x.id}" data-go="${x.id}">${esc(x.name)}</a>`).join('')}</div></div>` : '';
+  const boost = '';
+  const tips = d.tips.length ? `<ul class="tips">${d.tips.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : '';
+  const shop = d.url ? `<a class="btn shop" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.btn)}</a>` : '';
+  return `<article class="card${d.series.includes('日本') ? ' jp' : ''}" id="${d.id}" style="--tint:${TINT[d.id] || 'var(--brand-t)'}">
+    <div class="top"><img src="${d.img}" alt="${esc(d.name)}" loading="lazy" width="84" height="84"><div>${d.series.includes('日本') ? '<span class="badge">日本原裝</span>' : ''}<h3>${esc(d.name)}</h3><p>${esc(d.kind)}${d.spec ? '・' + esc(d.spec) : ''}</p>${d.price ? `<p class="price">定價 $${Number(d.price).toLocaleString('en-US')}</p>` : ''}</div></div>
+    ${d.points && d.points.length ? `<div class="hook"><p class="hq">${esc(d.points[0])}</p><p class="ha">${esc(d.points[1] || '')}</p></div>` : ''}
+    <div class="${cls}">${cells.join('')}</div>${boost}${pair}${tips}
+    <div class="btns">${shop}<a class="btn ask" href="${ask(d.name)}" target="_blank" rel="noopener"><svg class="lineic" viewBox="0 0 48 48" aria-hidden="true"><path fill="#fff" d="M24 6C12.4 6 3 13.6 3 23c0 8.4 7.5 15.4 17.6 16.8.7.1 1.6.4 1.9 1 .2.5.1 1.3.1 1.8l-.3 1.8c-.1.5-.4 2.1 1.8 1.1 2.2-.9 12-7.1 16.4-12.1 3-3.3 4.5-6.7 4.5-10.4C45 13.6 35.6 6 24 6z"/><text x="24" y="27.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="12.5" fill="#06C755">LINE</text></svg>LINE問營養師</a></div>
+  </article>`;
+}
+function render(){
+  const list = DATA.filter(d => picked.has(d.id));
+  if(!list.length){ $('#list').innerHTML = '<p class="hint">↑ 先點上面你有的產品，這裡就會出現怎麼吃</p>'; return; }
+  const slotOf = d => SLOTS.find(x => x.f(d.when || ''));
+  const names = (sl, items) => items.map(d => `<span>${esc(d.name)}${d.when === '晚餐飯後' ? '<small>晚餐飯後</small>' : ''}</span>`).join('')   /* 11-25 老闆：總覽只標納豆晚餐飯後；益眠時間只放在下面卡片 */   /* 11-25 老闆：總覽不加括號、一款一行 */;
+  const sum = SLOTS.map(sl => { const items = list.filter(d => slotOf(d) === sl); return items.length ? `<div class="sum-row">${TIC[sl.ic]}<p><b>${sl.t}</b>${names(sl, items)}</p></div>` : ''; }).join('');
+  const parts = SLOTS.map(sl => {
+    const items = list.filter(d => slotOf(d) === sl);
+    return items.length ? `<section class="slot"><h3 class="slot-h">${TIC[sl.ic]}<span class="st">${sl.t}</span></h3>${items.map(card).join('')}</section>` : '';
+  }).join('');
+  $('#list').innerHTML = `<div class="listtop"><h2 class="listhead">你的產品這樣吃</h2><button type="button" id="reset">清除重選</button></div><div class="sum">${sum}</div>${parts}<p class="shot">可以截圖存起來，或給家人看喔</p>`;
+}
+// 11-25 老闆：「其他時間」不當分類→不出 chip、不出標題，只在「全部」最後列出
+render();
+renderPick(); renderSched(); renderBar();
+</script>
+
+</body>
+</html>
